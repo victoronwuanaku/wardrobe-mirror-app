@@ -6,7 +6,7 @@
  * A mobile garment diagnostic tool exploring wardrobe behavior through
  * three independent question sets: Recent Purchase, Favorite Garment, Disposal.
  *
- * Automatically emails CSV and JSON data to researcher.
+ * Submits one row per completed set to Supabase; the researcher accesses data via the Supabase dashboard.
  *
  * ============================================================================
  */
