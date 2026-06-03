@@ -52,6 +52,13 @@ import { SetCQuestion } from './questions/SetCQuestion';
 // MAIN GAME COMPONENT
 // ============================================================================
 
+// Maps each multi-select question to its free-text "Other" companion field.
+const COMPANION_FIELD: Record<string, string> = {
+  mainUse: 'mainUseOther',
+  whyFavorite: 'whyFavoriteOther',
+  whyNotWear: 'whyNotWearOther',
+};
+
 export function MirrorGame() {
   const shouldReduceMotion = useReducedMotion();
   const [gameState, setGameState] = useState<GameState>('welcome');
@@ -168,14 +175,8 @@ export function MirrorGame() {
     setCurrentResponse({ ...currentResponse, [key]: 'other' });
   };
 
-  // Maps each multi-select question to its free-text "Other" companion field.
-  const COMPANION_FIELD: Record<string, string> = {
-    mainUse: 'mainUseOther',
-    whyFavorite: 'whyFavoriteOther',
-    whyNotWear: 'whyNotWearOther',
-  };
-
   const handleMultiSelectToggle = (key: string, value: string) => {
+    let shouldClearInput = false;
     setCurrentResponse((prev) => {
       const arr = ((prev as Record<string, unknown>)[key] as string[]) || [];
       const next = arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
@@ -184,10 +185,12 @@ export function MirrorGame() {
       if (value === 'other' && !next.includes('other')) {
         const companion = COMPANION_FIELD[key];
         if (companion) delete updated[companion];
-        setTextInputValue('');
+        shouldClearInput = true;
       }
       return updated as Partial<SetResponse>;
     });
+    // Cleared outside the updater so the function stays pure (safe under StrictMode double-invoke).
+    if (shouldClearInput) setTextInputValue('');
   };
 
   const handleOtherTextAnswer = (key: string) => {
