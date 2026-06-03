@@ -319,6 +319,21 @@ export function MirrorGame() {
     setStatusDismissed(false);
   };
 
+  // Early "Finish Now" (Set A/B): confirm before submitting a partial session.
+  // For Set C, allResponses.length === 3, so no prompt is shown.
+  const handleFinishEarly = () => {
+    const done = allResponses.length;
+    if (
+      done < 3 &&
+      !window.confirm(
+        `You've completed ${done} of 3 garments. Submit now with partial responses? You won't be able to add more afterwards.`
+      )
+    ) {
+      return;
+    }
+    finishGame();
+  };
+
   const handleStartNewRun = () => {
     window.location.reload();
   };
@@ -505,7 +520,7 @@ export function MirrorGame() {
         currentSet={currentSet}
         completedCount={allResponses.length}
         onContinue={handleContinueToNextSet}
-        onFinish={finishGame}
+        onFinish={handleFinishEarly}
       />
     );
   }
