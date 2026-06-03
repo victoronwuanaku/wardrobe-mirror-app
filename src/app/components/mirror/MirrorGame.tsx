@@ -6,12 +6,12 @@
  * A mobile garment diagnostic tool exploring wardrobe behavior through
  * three independent question sets: Recent Purchase, Favorite Garment, Disposal.
  *
- * Automatically emails CSV and JSON data to researcher.
+ * Submits one row per completed set to Supabase; the researcher accesses data via the Supabase dashboard.
  *
  * ============================================================================
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useReducedMotion } from 'motion/react';
 import type {
   SetResponse,
@@ -52,6 +52,13 @@ import { SetCQuestion } from './questions/SetCQuestion';
 // MAIN GAME COMPONENT
 // ============================================================================
 
+// Maps each multi-select question to its free-text "Other" companion field.
+const COMPANION_FIELD: Record<string, string> = {
+  mainUse: 'mainUseOther',
+  whyFavorite: 'whyFavoriteOther',
+  whyNotWear: 'whyNotWearOther',
+};
+
 export function MirrorGame() {
   const shouldReduceMotion = useReducedMotion();
   const [gameState, setGameState] = useState<GameState>('welcome');
@@ -82,6 +89,25 @@ export function MirrorGame() {
   const [activeTab, setActiveTab] = useState<'dashboard' | 'insights' | 'data' | 'share'>('dashboard');
   const [selectedArchetype, setSelectedArchetype] = useState<string | null>(null);
 
+  // Single pending auto-advance timer. Clearing before each schedule guarantees
+  // only ONE advance fires (the latest), so rapid taps can't skip questions.
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const clearAdvanceTimer = () => {
+    if (advanceTimerRef.current !== null) {
+      clearTimeout(advanceTimerRef.current);
+      advanceTimerRef.current = null;
+    }
+  };
+  const scheduleAdvance = (fn: () => void, delay: number) => {
+    clearAdvanceTimer();
+    advanceTimerRef.current = setTimeout(() => {
+      advanceTimerRef.current = null;
+      fn();
+    }, delay);
+  };
+  // Cancel any pending advance on unmount
+  useEffect(() => clearAdvanceTimer, []);
+
   const handleStartGame = () => {
     setGameState('baseline');
   };
@@ -89,7 +115,7 @@ export function MirrorGame() {
   const handleBaselineAnswer = (key: keyof BaselineResponses, value: string) => {
     const updated = { ...baselineDraft, [key]: value } as Partial<BaselineResponses>;
     setBaselineDraft(updated);
-    setTimeout(() => {
+    scheduleAdvance(() => {
       if (baselineQuestionIndex < BASELINE_QUESTIONS.length - 1) {
         setBaselineQuestionIndex(baselineQuestionIndex + 1);
       } else {
@@ -102,6 +128,7 @@ export function MirrorGame() {
   };
 
   const handleBaselineBack = () => {
+    clearAdvanceTimer();
     if (baselineQuestionIndex > 0) {
       setBaselineQuestionIndex((index) => index - 1);
       return;
@@ -122,10 +149,9 @@ export function MirrorGame() {
     setCurrentResponse(updatedResponse);
     setTextInputValue('');
 
-    // Auto-advance for single-choice questions (C3: 800ms gives users time to recognise a misclick before advancing)
-    setTimeout(() => {
-      handleContinue(updatedResponse);
-    }, 800);
+    // Auto-advance for single-choice questions (800ms lets users catch a misclick).
+    // scheduleAdvance cancels any prior pending advance so double-taps can't skip ahead.
+    scheduleAdvance(() => handleContinue(updatedResponse), 800);
   };
 
   const submitTextAnswer = (key: string, fallbackValue = 'skipped') => {
@@ -141,9 +167,7 @@ export function MirrorGame() {
     setCurrentResponse(updatedResponse);
     setTextInputValue('');
 
-    setTimeout(() => {
-      handleContinue(updatedResponse);
-    }, 800);
+    scheduleAdvance(() => handleContinue(updatedResponse), 800);
   };
 
   const handleOtherSelection = (key: string) => {
@@ -152,11 +176,21 @@ export function MirrorGame() {
   };
 
   const handleMultiSelectToggle = (key: string, value: string) => {
-    setCurrentResponse(prev => {
+    let shouldClearInput = false;
+    setCurrentResponse((prev) => {
       const arr = ((prev as Record<string, unknown>)[key] as string[]) || [];
-      const next = arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value];
-      return { ...prev, [key]: next };
+      const next = arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
+      const updated: Record<string, unknown> = { ...prev, [key]: next };
+      // When 'other' is removed, drop its companion text so a stale value can't survive.
+      if (value === 'other' && !next.includes('other')) {
+        const companion = COMPANION_FIELD[key];
+        if (companion) delete updated[companion];
+        shouldClearInput = true;
+      }
+      return updated as Partial<SetResponse>;
     });
+    // Cleared outside the updater so the function stays pure (safe under StrictMode double-invoke).
+    if (shouldClearInput) setTextInputValue('');
   };
 
   const handleOtherTextAnswer = (key: string) => {
@@ -175,6 +209,7 @@ export function MirrorGame() {
   };
 
   const handleContinue = (updatedResponse?: any) => {
+    clearAdvanceTimer();
     const responseToUse = updatedResponse || currentResponse;
 
     if (!currentSet) return;
@@ -200,6 +235,7 @@ export function MirrorGame() {
   };
 
   const handleBack = () => {
+    clearAdvanceTimer();
     if (!currentSet) {
       setGameState('set-intro');
       return;
@@ -211,11 +247,23 @@ export function MirrorGame() {
       .find((step) => step.renderIndex < currentQuestionIndex);
 
     if (previousStep) {
-      // Re-seed textInputValue for text-input questions so Continue is enabled on back-nav
-      const textFieldKeys: string[] = ['howLongHad', 'cost', 'whyBoughtOther'];
+      // Re-seed textInputValue so Continue is enabled on back-nav.
+      // (Only real, non-last step ids belong here; 'whyBought' is Set A's final
+      // question so it can't be back-navigated into, hence no entry for it.)
+      const textFieldKeys: string[] = ['howLongHad', 'cost'];
+      const companion = COMPANION_FIELD[previousStep.id];
       if (textFieldKeys.includes(previousStep.id)) {
         const saved = (currentResponse as Record<string, unknown>)[previousStep.id] as string | undefined;
         setTextInputValue(saved && saved !== 'skipped' ? saved : '');
+      } else if (companion) {
+        // Multi-select "Other": restore the typed companion text if 'other' is still selected.
+        const arr = (currentResponse as Record<string, unknown>)[previousStep.id] as string[] | undefined;
+        const savedOther = (currentResponse as Record<string, unknown>)[companion] as string | undefined;
+        setTextInputValue(
+          Array.isArray(arr) && arr.includes('other') && savedOther && savedOther !== 'skipped'
+            ? savedOther
+            : ''
+        );
       } else {
         setTextInputValue('');
       }
@@ -271,6 +319,21 @@ export function MirrorGame() {
     setEmailSent(result.ok);
     setSubmissionError(result.ok ? null : result.error);
     setStatusDismissed(false);
+  };
+
+  // Early "Finish Now" (Set A/B): confirm before submitting a partial session.
+  // For Set C, allResponses.length === 3, so no prompt is shown.
+  const handleFinishEarly = () => {
+    const done = allResponses.length;
+    if (
+      done < 3 &&
+      !window.confirm(
+        `You've completed ${done} of 3 garments. Submit now with partial responses? You won't be able to add more afterwards.`
+      )
+    ) {
+      return;
+    }
+    finishGame();
   };
 
   const handleStartNewRun = () => {
@@ -459,7 +522,7 @@ export function MirrorGame() {
         currentSet={currentSet}
         completedCount={allResponses.length}
         onContinue={handleContinueToNextSet}
-        onFinish={finishGame}
+        onFinish={handleFinishEarly}
       />
     );
   }
