@@ -379,54 +379,6 @@ export function SetBQuestion(props: SetBQuestionProps) {
             </div>
           </QuestionScreen>
         );
-      case 10:
-        if (!Array.isArray(resp.whyFavorite) || !resp.whyFavorite.includes('other')) return null;
-        return (
-          <QuestionScreen title="Please describe your other reason" subtitle="Optional — You can skip this" icon={
-            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-full" style={{
-              background: 'linear-gradient(135deg, rgba(212, 175, 55, 0.06), rgba(138, 154, 91, 0.06))',
-              border: '1px solid rgba(212, 175, 55, 0.25)',
-              backdropFilter: 'blur(20px)',
-              boxShadow: '0 0 20px rgba(212, 175, 55, 0.1), inset 0 1px 1px rgba(255, 255, 255, 0.1)'
-            }}>
-              <span className="text-3xl" style={{ filter: 'drop-shadow(0 0 8px rgba(212, 175, 55, 0.3))' }}>{getGarmentIcon(resp.garmentType)}</span>
-              <div className="flex flex-col gap-0.5">
-                <div className="text-[9px] uppercase tracking-[0.2em] font-medium" style={{
-                  color: COLORS.gold,
-                  textShadow: '0 0 10px rgba(212, 175, 55, 0.4)'
-                }}>{getSetCategoryName('B')}</div>
-                <div className="text-sm font-light leading-none" style={{
-                  color: COLORS.light,
-                  fontFamily: 'Georgia, serif'
-                }}>{getGarmentLabel(resp.garmentType)}</div>
-              </div>
-            </div>
-          }>
-            <div className="space-y-4">
-              <input
-                type="text"
-                value={textInputValue}
-                onChange={(e) => setTextInputValue(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' && textInputValue.trim()) submitTextAnswer('whyFavoriteOther');
-                }}
-                placeholder="Type your answer..."
-                className="w-full p-4 rounded-2xl text-base"
-                style={{
-                  background: 'rgba(255, 255, 255, 0.05)',
-                  border: `1px solid ${'rgba(255, 255, 255, 0.18)'}`,
-                  color: COLORS.light,
-                  fontFamily: 'Georgia, serif',
-                }}
-                autoFocus
-              />
-              <div className="grid grid-cols-2 gap-3">
-                <SecondaryButton onClick={() => onSkip('whyFavoriteOther')} label="Skip" />
-                <ContinueButton onClick={() => submitTextAnswer('whyFavoriteOther')} label="Continue" disabled={!textInputValue.trim()} />
-              </div>
-            </div>
-          </QuestionScreen>
-        );
     }
 
 }

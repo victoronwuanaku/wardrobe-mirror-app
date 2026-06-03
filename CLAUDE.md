@@ -68,7 +68,7 @@ Colors are defined in the `COLORS` object in `src/app/components/mirror/constant
 5. Set C — Ready to dispose (6 questions)
 6. Final dashboard — persona archetype, value radar, insights, data export tab
 
-Navigation uses `QUESTION_STEPS` per-set definitions with `renderIndex`, `optional`, and `shouldShow()`. `handleContinue` / `handleBack` traverse visible steps only. Set B step indices are consecutive 0–10 (no gaps).
+Navigation uses `QUESTION_STEPS` per-set definitions with `renderIndex`, `optional`, and `shouldShow()`. `handleContinue` / `handleBack` traverse visible steps only. Set B render indices are 0–6, 8, 9 (index 7 is a legacy gap; the former `case 10` other-reason screen was removed — `whyFavoriteOther` is captured inline in the `whyFavorite` question).
 
 ---
 
