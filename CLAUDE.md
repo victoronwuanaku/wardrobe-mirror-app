@@ -146,11 +146,11 @@ Audited via `mcp__plugin_supabase_supabase__execute_sql`. As of May 2026 (~14 ro
 **No column mismatches found.** Every set's data lands in its proper columns:
 - Set A rows: `garment_type`, `how_got`, `cost`, `wear_frequency`, `main_use`, `why_bought` (+ optional `why_bought_other`) populated; all B/C-specific columns empty `''`
 - Set B rows: `how_long_had`, `why_favorite` (+ optional `why_favorite_other`), `wash_frequency`, `repaired` populated; A/C-specific columns empty `''`. `use_changed`/`brand` are LEGACY and always NULL (not written by the app).
-- Set C rows: `why_not_wear`, `disposal_plan` populated correctly (the earlier bug where `disposal_plan` was dropped is verified fixed); A/B-specific columns empty `''`
+- Set C rows: `how_long_had_years`, `why_not_wear`, `disposal_plan` populated correctly (the earlier bug where `disposal_plan` was dropped is verified fixed); `how_long_had` and A/B-specific columns empty `''`
 
 **Two quirks (not bugs, design decisions):**
 1. **Empty strings instead of NULL** for cells not relevant to a given set type. The code emits `''` for unused columns rather than `null`. Cosmetic for CSV exports; counts() will include these as non-null in Postgres.
-2. **Literal `'skipped'` string** when a participant explicitly skips an optional text input (e.g. `why_favorite`, `brand`, `how_long_had` in Set C). Researcher needs to filter `WHERE why_favorite NOT IN ('', 'skipped')` for analysis.
+2. **Literal `'skipped'` string** when a participant explicitly skips an optional text input (e.g. `why_favorite` in Set B, `how_long_had_years` in Set C). Researcher needs to filter `WHERE why_favorite NOT IN ('', 'skipped')` for analysis.
 
 **Always-NULL columns (by design):**
 - `consent_given` and `consent_timestamp` — consent screen is deferred; these stay null until that work lands.
