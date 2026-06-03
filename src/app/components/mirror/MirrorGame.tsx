@@ -168,11 +168,25 @@ export function MirrorGame() {
     setCurrentResponse({ ...currentResponse, [key]: 'other' });
   };
 
+  // Maps each multi-select question to its free-text "Other" companion field.
+  const COMPANION_FIELD: Record<string, string> = {
+    mainUse: 'mainUseOther',
+    whyFavorite: 'whyFavoriteOther',
+    whyNotWear: 'whyNotWearOther',
+  };
+
   const handleMultiSelectToggle = (key: string, value: string) => {
-    setCurrentResponse(prev => {
+    setCurrentResponse((prev) => {
       const arr = ((prev as Record<string, unknown>)[key] as string[]) || [];
-      const next = arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value];
-      return { ...prev, [key]: next };
+      const next = arr.includes(value) ? arr.filter((v) => v !== value) : [...arr, value];
+      const updated: Record<string, unknown> = { ...prev, [key]: next };
+      // When 'other' is removed, drop its companion text so a stale value can't survive.
+      if (value === 'other' && !next.includes('other')) {
+        const companion = COMPANION_FIELD[key];
+        if (companion) delete updated[companion];
+        setTextInputValue('');
+      }
+      return updated as Partial<SetResponse>;
     });
   };
 
@@ -230,11 +244,21 @@ export function MirrorGame() {
       .find((step) => step.renderIndex < currentQuestionIndex);
 
     if (previousStep) {
-      // Re-seed textInputValue for text-input questions so Continue is enabled on back-nav
+      // Re-seed textInputValue so Continue is enabled on back-nav.
       const textFieldKeys: string[] = ['howLongHad', 'cost', 'whyBoughtOther'];
+      const companion = COMPANION_FIELD[previousStep.id];
       if (textFieldKeys.includes(previousStep.id)) {
         const saved = (currentResponse as Record<string, unknown>)[previousStep.id] as string | undefined;
         setTextInputValue(saved && saved !== 'skipped' ? saved : '');
+      } else if (companion) {
+        // Multi-select "Other": restore the typed companion text if 'other' is still selected.
+        const arr = (currentResponse as Record<string, unknown>)[previousStep.id] as string[] | undefined;
+        const savedOther = (currentResponse as Record<string, unknown>)[companion] as string | undefined;
+        setTextInputValue(
+          Array.isArray(arr) && arr.includes('other') && savedOther && savedOther !== 'skipped'
+            ? savedOther
+            : ''
+        );
       } else {
         setTextInputValue('');
       }
