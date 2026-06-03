@@ -78,7 +78,7 @@ export function SetCQuestion(props: SetCQuestionProps) {
                 inputMode="numeric"
                 pattern="[0-9]*"
                 value={textInputValue}
-                onChange={(e) => setTextInputValue(e.target.value)}
+                onChange={(e) => setTextInputValue(e.target.value.replace(/[^0-9]/g, ''))}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && textInputValue.trim()) submitTextAnswer('howLongHad');
                 }}
@@ -127,7 +127,7 @@ export function SetCQuestion(props: SetCQuestionProps) {
                 inputMode="numeric"
                 pattern="[0-9]*"
                 value={textInputValue}
-                onChange={(e) => setTextInputValue(e.target.value)}
+                onChange={(e) => setTextInputValue(e.target.value.replace(/[^0-9]/g, ''))}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && textInputValue.trim()) submitTextAnswer('cost');
                 }}

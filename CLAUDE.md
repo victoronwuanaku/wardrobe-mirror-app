@@ -68,7 +68,7 @@ Colors are defined in the `COLORS` object in `src/app/components/mirror/constant
 5. Set C — Ready to dispose (6 questions)
 6. Final dashboard — persona archetype, value radar, insights, data export tab
 
-Navigation uses `QUESTION_STEPS` per-set definitions with `renderIndex`, `optional`, and `shouldShow()`. `handleContinue` / `handleBack` traverse visible steps only. Set B step indices are consecutive 0–10 (no gaps).
+Navigation uses `QUESTION_STEPS` per-set definitions with `renderIndex`, `optional`, and `shouldShow()`. `handleContinue` / `handleBack` traverse visible steps only. Set B render indices are 0–6, 8, 9 (index 7 is a legacy gap; the former `case 10` other-reason screen was removed — `whyFavoriteOther` is captured inline in the `whyFavorite` question).
 
 ---
 
@@ -118,8 +118,10 @@ CREATE TABLE wardrobe_responses (
   set_type text NOT NULL,
   garment_type text, how_got text, cost text,
   wear_frequency text, main_use text, main_use_other text, why_bought text, why_bought_other text,
-  how_long_had text, why_favorite text, use_changed text,
-  wash_frequency text, repaired text, brand text, why_not_wear text, disposal_plan text,
+  completion_status text,
+  how_long_had text, how_long_had_years text, why_favorite text, why_favorite_other text,
+  wash_frequency text, repaired text, why_not_wear text, why_not_wear_other text, disposal_plan text,
+  use_changed text, brand text, -- LEGACY: retained for historical rows, never written by the app
   consent_given bool, consent_timestamp timestamptz,
   CONSTRAINT valid_set_type CHECK (set_type IN ('A','B','C')),
   CONSTRAINT unique_session_set UNIQUE (session_id, set_type)
@@ -143,12 +145,12 @@ Audited via `mcp__plugin_supabase_supabase__execute_sql`. As of May 2026 (~14 ro
 
 **No column mismatches found.** Every set's data lands in its proper columns:
 - Set A rows: `garment_type`, `how_got`, `cost`, `wear_frequency`, `main_use`, `why_bought` (+ optional `why_bought_other`) populated; all B/C-specific columns empty `''`
-- Set B rows: `how_long_had`, `why_favorite`, `use_changed`, `wash_frequency`, `repaired`, `brand` populated; A/C-specific columns empty `''`
-- Set C rows: `why_not_wear`, `disposal_plan` populated correctly (the earlier bug where `disposal_plan` was dropped is verified fixed); A/B-specific columns empty `''`
+- Set B rows: `how_long_had`, `why_favorite` (+ optional `why_favorite_other`), `wash_frequency`, `repaired` populated; A/C-specific columns empty `''`. `use_changed`/`brand` are LEGACY and always NULL (not written by the app).
+- Set C rows: `how_long_had_years`, `why_not_wear`, `disposal_plan` populated correctly (the earlier bug where `disposal_plan` was dropped is verified fixed); `how_long_had` and A/B-specific columns empty `''`
 
 **Two quirks (not bugs, design decisions):**
 1. **Empty strings instead of NULL** for cells not relevant to a given set type. The code emits `''` for unused columns rather than `null`. Cosmetic for CSV exports; counts() will include these as non-null in Postgres.
-2. **Literal `'skipped'` string** when a participant explicitly skips an optional text input (e.g. `why_favorite`, `brand`, `how_long_had` in Set C). Researcher needs to filter `WHERE why_favorite NOT IN ('', 'skipped')` for analysis.
+2. **Literal `'skipped'` string** when a participant explicitly skips an optional text input (e.g. `why_favorite` in Set B, `how_long_had_years` in Set C). Researcher needs to filter `WHERE why_favorite NOT IN ('', 'skipped')` for analysis.
 
 **Always-NULL columns (by design):**
 - `consent_given` and `consent_timestamp` — consent screen is deferred; these stay null until that work lands.

@@ -3,8 +3,6 @@ import { motion } from 'motion/react';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 import { MOTION_EASE, fadeRiseMotion, scaleInMotion } from '../constants/design';
 import { BASELINE_QUESTIONS } from '../constants/baselineQuestions';
-import { ContinueButton } from '../ui/ContinueButton';
-import { SecondaryButton } from '../ui/SecondaryButton';
 import type { BaselineResponses, MotionPreference } from '../types';
 
 interface BaselineScreenProps {
@@ -81,37 +79,7 @@ export function BaselineScreen({
               <ArrowLeft className="h-5 w-5" strokeWidth={1.7} />
             </motion.button>
             <h2 className="text-heading-responsive text-serif-elegant text-light text-safe text-center pt-12 sm:pt-14">{currentQ.question}</h2>
-            {'isTextInput' in currentQ && currentQ.isTextInput ? (
-              <div className="space-y-4">
-                <input
-                  type="text"
-                  value={textInputValue}
-                  onChange={(e) => setTextInputValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      const value = textInputValue.trim() || 'skipped';
-                      onAnswer(currentQ.id, value);
-                      setTextInputValue('');
-                    }
-                  }}
-                  placeholder="Type your age..."
-                  className={`input-field ${textInputValue ? 'has-value' : ''}`}
-                  autoFocus
-                />
-                <div className="grid grid-cols-2 gap-3">
-                  <SecondaryButton onClick={() => {
-                    onAnswer(currentQ.id, 'skipped');
-                    setTextInputValue('');
-                  }} label="Skip" />
-                  <ContinueButton onClick={() => {
-                    const value = textInputValue.trim() || 'skipped';
-                    onAnswer(currentQ.id, value);
-                    setTextInputValue('');
-                  }} label="Continue" />
-                </div>
-              </div>
-            ) : (
-              <div className="space-y-3">
+            <div className="space-y-3">
                 {currentQ.options?.map((option) => {
                   const isSelected = selected === option.value;
                   return (
@@ -151,8 +119,7 @@ export function BaselineScreen({
                     </motion.button>
                   );
                 })}
-              </div>
-            )}
+            </div>
           </div>
 
         </motion.div>
