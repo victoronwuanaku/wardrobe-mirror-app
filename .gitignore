@@ -1,0 +1,13 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+
+# Tooling caches
+.playwright-cli/
+
+# OS
+.DS_Store
+**/.DS_Store

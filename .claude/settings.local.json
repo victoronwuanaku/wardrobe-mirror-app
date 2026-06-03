@@ -1,0 +1,44 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import os; path='/Users/victoronwuanaku/Documents/Claude'; items=os.listdir\\(path\\); print\\('\\\\n'.join\\(repr\\(i\\) for i in items\\)\\)\")",
+      "Bash(grep -n \"emailDataToResearcher\\\\|finishGame\" \"/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /src/app/components/mirror/MirrorGame.tsx\")",
+      "Read(//Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /src/app/components/mirror/**)",
+      "Bash(grep -rn \"@supabase/supabase-js\" \"/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /src/\" --include=\"*.tsx\" --include=\"*.ts\")",
+      "Read(//Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /src/**)",
+      "Bash(mkdir -p \"/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /utils/sheets\")",
+      "Bash(npx pnpm@10.18.3 exec tsc --noEmit)",
+      "Bash(echo \"TSC_EXIT:$?\")",
+      "Bash(npx pnpm@10.18.3 run build)",
+      "Bash(echo \"BUILD_EXIT:$?\")",
+      "mcp__plugin_supabase_supabase__list_organizations",
+      "mcp__plugin_supabase_supabase__list_projects",
+      "mcp__plugin_supabase_supabase__get_cost",
+      "mcp__plugin_supabase_supabase__confirm_cost",
+      "mcp__plugin_supabase_supabase__create_project",
+      "mcp__plugin_supabase_supabase__apply_migration",
+      "mcp__plugin_supabase_supabase__get_project_url",
+      "mcp__plugin_supabase_supabase__get_publishable_keys",
+      "mcp__plugin_supabase_supabase__list_edge_functions",
+      "Bash(rm -rf \"/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /supabase/functions\" && echo \"deleted\")",
+      "Bash(grep -n \"setTimeout\\(\\(\\) => {[[:space:]]*handleContinue\\\\|setTimeout\\(\\(\\) => handleContinue\\\\|setTimeout\\(.*handleContinue\\\\|}, 400\\)\" \"/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /src/app/components/mirror/MirrorGame.tsx\")",
+      "Bash(pnpm typecheck *)",
+      "Bash(./node_modules/.bin/tsc --noEmit)",
+      "Bash(./node_modules/.bin/vite)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(lsof -ti:5173)",
+      "Bash(open http://localhost:5173/)",
+      "Bash(cat ~/.claude/plugins/marketplaces/claude-plugins-official/external_plugins/serena/.mcp.json)",
+      "Read(//Users/victoronwuanaku/.claude/plugins/marketplaces/claude-plugins-official/external_plugins/serena/**)",
+      "Bash(cat ~/.claude/plugins/data/serena-claude-plugins-official/serena.local.md 2>/dev/null || echo \"no local config\")",
+      "Read(//Users/victoronwuanaku/.claude/plugins/data/serena-claude-plugins-official/**)",
+      "Bash(uvx --version)"
+    ],
+    "additionalDirectories": [
+      "/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /utils",
+      "/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror /supabase/functions",
+      "/Users/victoronwuanaku/Documents/Claude/W.V_Wardrobe Mirror "
+    ]
+  }
+}
