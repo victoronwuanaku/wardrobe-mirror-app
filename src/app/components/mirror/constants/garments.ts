@@ -15,7 +15,7 @@ export function getGarmentIcon(garmentType?: string): string {
   if (garment) return garment.icon;
 
   // If not found in options, it's a custom "other" garment - match to appropriate icon
-  if (garmentType && garmentType !== 'other' && garmentType !== 'other-skipped') {
+  if (garmentType && garmentType !== 'other' && garmentType !== 'other-skipped' && garmentType !== 'skipped') {
     const type = garmentType.toLowerCase();
 
     // Match keywords to appropriate emojis
@@ -50,7 +50,7 @@ export function getGarmentLabel(garmentType?: string): string {
   const garment = GARMENT_OPTIONS.find(g => g.value === garmentType);
   if (garment) return garment.label;
   // If not found in options, it's a custom "other" garment - use the actual entered value
-  if (garmentType && garmentType !== 'other' && garmentType !== 'other-skipped') {
+  if (garmentType && garmentType !== 'other' && garmentType !== 'other-skipped' && garmentType !== 'skipped') {
     // Capitalize first letter and return custom name
     return garmentType.charAt(0).toUpperCase() + garmentType.slice(1);
   }
