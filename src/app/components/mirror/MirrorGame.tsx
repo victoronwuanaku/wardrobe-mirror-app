@@ -98,6 +98,7 @@ export function MirrorGame() {
       fn();
     }, delay);
   };
+  // Cancel any pending advance on unmount
   useEffect(() => clearAdvanceTimer, []);
 
   const handleStartGame = () => {
@@ -120,6 +121,7 @@ export function MirrorGame() {
   };
 
   const handleBaselineBack = () => {
+    clearAdvanceTimer();
     if (baselineQuestionIndex > 0) {
       setBaselineQuestionIndex((index) => index - 1);
       return;
