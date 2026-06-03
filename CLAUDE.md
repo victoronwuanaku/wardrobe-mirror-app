@@ -118,8 +118,10 @@ CREATE TABLE wardrobe_responses (
   set_type text NOT NULL,
   garment_type text, how_got text, cost text,
   wear_frequency text, main_use text, main_use_other text, why_bought text, why_bought_other text,
-  how_long_had text, why_favorite text, use_changed text,
-  wash_frequency text, repaired text, brand text, why_not_wear text, disposal_plan text,
+  completion_status text,
+  how_long_had text, how_long_had_years text, why_favorite text, why_favorite_other text,
+  wash_frequency text, repaired text, why_not_wear text, why_not_wear_other text, disposal_plan text,
+  use_changed text, brand text, -- LEGACY: retained for historical rows, never written by the app
   consent_given bool, consent_timestamp timestamptz,
   CONSTRAINT valid_set_type CHECK (set_type IN ('A','B','C')),
   CONSTRAINT unique_session_set UNIQUE (session_id, set_type)
@@ -143,7 +145,7 @@ Audited via `mcp__plugin_supabase_supabase__execute_sql`. As of May 2026 (~14 ro
 
 **No column mismatches found.** Every set's data lands in its proper columns:
 - Set A rows: `garment_type`, `how_got`, `cost`, `wear_frequency`, `main_use`, `why_bought` (+ optional `why_bought_other`) populated; all B/C-specific columns empty `''`
-- Set B rows: `how_long_had`, `why_favorite`, `use_changed`, `wash_frequency`, `repaired`, `brand` populated; A/C-specific columns empty `''`
+- Set B rows: `how_long_had`, `why_favorite` (+ optional `why_favorite_other`), `wash_frequency`, `repaired` populated; A/C-specific columns empty `''`. `use_changed`/`brand` are LEGACY and always NULL (not written by the app).
 - Set C rows: `why_not_wear`, `disposal_plan` populated correctly (the earlier bug where `disposal_plan` was dropped is verified fixed); A/B-specific columns empty `''`
 
 **Two quirks (not bugs, design decisions):**

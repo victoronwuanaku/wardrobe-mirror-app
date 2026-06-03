@@ -50,6 +50,7 @@ export function buildResponseRow(data: GameData, r: SetResponse): (string | numb
     data.baselineResponses?.disposalHabit || '',
     data.baselineResponses?.primaryDriver || '',
     data.persona || '',
+    data.responses.length >= 3 ? 'complete' : 'partial',
     data.values?.social ?? '',
     data.values?.emotional ?? '',
     data.values?.functional ?? '',
@@ -67,7 +68,8 @@ export function buildResponseRow(data: GameData, r: SetResponse): (string | numb
       r.whyBought || '', r.whyBoughtOther || '',
       '', '', '',                                // howLongHad, whyFavorite, whyFavoriteOther
       '', '',                                    // washFrequency, repaired
-      '', '', ''                                 // whyNotWear, whyNotWearOther, disposalPlan
+      '', '', '',                                // whyNotWear, whyNotWearOther, disposalPlan
+      ''                                         // howLongHadYears (Set A: none)
     ];
   } else if (r.setType === 'B') {
     return [
@@ -80,19 +82,21 @@ export function buildResponseRow(data: GameData, r: SetResponse): (string | numb
       Array.isArray(r.whyFavorite) ? r.whyFavorite.join('; ') : r.whyFavorite || '',
       r.whyFavoriteOther || '',
       r.washFrequency || '', r.repaired || '',
-      '', '', ''                                 // whyNotWear, whyNotWearOther, disposalPlan
+      '', '', '',                                // whyNotWear, whyNotWearOther, disposalPlan
+      ''                                         // howLongHadYears (Set B: none)
     ];
   } else {
     return [
       ...base,
       r.howGot || '', r.cost || '',
       '', '', '', '', '',                        // wearFrequency, mainUse, mainUseOther, whyBought, whyBoughtOther
-      r.howLongHad || '',
+      '',                                        // howLongHad (Set C now uses howLongHadYears)
       '', '',                                    // whyFavorite, whyFavoriteOther
       '', '',                                    // washFrequency, repaired
       Array.isArray(r.whyNotWear) ? r.whyNotWear.join('; ') : '',
       r.whyNotWearOther || '',
-      r.disposalPlan || ''
+      r.disposalPlan || '',
+      r.howLongHad || ''                         // howLongHadYears
     ];
   }
 }
@@ -101,11 +105,11 @@ export function generateCSVString(data: GameData): string {
   const headers = [
     'Session ID', 'Timestamp (Amsterdam)',
     'Wardrobe Size', 'Shopping Frequency', 'Disposal Habit', 'Primary Driver',
-    'Persona', 'Social Value', 'Emotional Value', 'Functional Value', 'Inflow/Outflow Value',
+    'Persona', 'Completion Status', 'Social Value', 'Emotional Value', 'Functional Value', 'Inflow/Outflow Value',
     'Set Type', 'Garment Type', 'How Got', 'Cost',
     'Wear Frequency', 'Main Use', 'Main Use Other', 'Why Bought', 'Why Bought Other',
     'How Long Had', 'Why Favorite', 'Why Favorite Other',
-    'Wash Frequency', 'Repaired', 'Why Not Wear', 'Why Not Wear Other', 'Disposal Plan'
+    'Wash Frequency', 'Repaired', 'Why Not Wear', 'Why Not Wear Other', 'Disposal Plan', 'How Long Had (Years)'
   ];
 
   const rows = data.responses.map(r => buildResponseRow(data, r));
