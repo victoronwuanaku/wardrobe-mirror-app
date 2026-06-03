@@ -1,0 +1,546 @@
+/**
+ * Wardrobe Mirror - Visual Styles
+ * Professional, reusable styling for the Wardrobe Mirror application
+ */
+
+/* ============================================================================
+   ANIMATED BACKGROUNDS
+   ============================================================================ */
+
+.gradient-bg-animated {
+  background: linear-gradient(
+    135deg,
+    #1e293b 0%,
+    #0f172a 25%,
+    #1a3a2e 50%,
+    #2d3748 75%,
+    #1e293b 100%
+  );
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.gradient-overlay-animated {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  opacity: 0.4;
+  background: radial-gradient(
+      ellipse at 20% 30%,
+      rgba(138, 154, 91, 0.15) 0%,
+      transparent 50%
+    ),
+    radial-gradient(ellipse at 80% 70%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(74, 85, 104, 0.2) 0%, transparent 50%);
+  background-size: 200% 200%;
+  animation: gradientSwirl 20s ease-in-out infinite;
+}
+
+.wm-screen {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.wm-screen-centered {
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 4vw, 2rem);
+  padding-top: max(env(safe-area-inset-top), clamp(1.5rem, 4vw, 2rem));
+  padding-bottom: max(env(safe-area-inset-bottom), clamp(1.5rem, 4vw, 2rem));
+}
+
+.wm-content {
+  width: 100%;
+  max-width: 42rem;
+  position: relative;
+  z-index: 10;
+}
+
+.wm-enter {
+  animation: wmEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.wm-enter-delayed {
+  animation: wmEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: 0.12s;
+}
+
+.wm-divider {
+  width: 5rem;
+  height: 1px;
+  margin-inline: auto;
+  background: linear-gradient(90deg, transparent, #d4af37 50%, transparent);
+}
+
+.wm-landing-title {
+  font-family: Georgia, 'Playfair Display', serif;
+  color: #f5f1e8;
+  font-weight: 300;
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  line-height: 1.2;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+}
+
+.wm-landing-subtitle {
+  font-family: Inter, Montserrat, sans-serif;
+  color: rgba(245, 241, 232, 0.7);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.75;
+  letter-spacing: 0.05em;
+}
+
+.wm-instruction-card {
+  padding: clamp(1.5rem, 4vw, 2rem);
+  border-radius: 1.5rem;
+}
+
+.wm-instruction-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.wm-instruction-index {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.2);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  color: #d4af37;
+  font-family: Inter, Montserrat, sans-serif;
+  font-size: 0.75rem;
+}
+
+.wm-instruction-text {
+  font-family: Inter, Montserrat, sans-serif;
+  color: rgba(245, 241, 232, 0.8);
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.7;
+}
+
+.wm-footer-label {
+  font-family: Inter, Montserrat, sans-serif;
+  color: rgba(245, 241, 232, 0.4);
+  font-size: 0.625rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+@keyframes gradientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes gradientSwirl {
+  0%,
+  100% {
+    background-position: 0% 0%, 100% 100%, 50% 50%;
+    transform: rotate(0deg);
+  }
+  33% {
+    background-position: 100% 0%, 0% 100%, 30% 70%;
+    transform: rotate(5deg);
+  }
+  66% {
+    background-position: 0% 100%, 100% 0%, 70% 30%;
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-8deg);
+  }
+  75% {
+    transform: rotate(8deg);
+  }
+}
+
+@keyframes wmEnter {
+  from {
+    opacity: 0;
+    transform: translateY(1.25rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wmArrowNudge {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0.25rem);
+  }
+}
+
+/* ============================================================================
+   GLASS MORPHISM CARDS
+   ============================================================================ */
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 80px rgba(212, 175, 55, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.glass-card-subtle {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================================
+   TYPOGRAPHY
+   ============================================================================ */
+
+.text-serif-elegant {
+  font-family: Georgia, 'Playfair Display', serif;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+.text-sans-clean {
+  font-family: Inter, Montserrat, sans-serif;
+  font-weight: 300;
+  letter-spacing: 0.01em;
+}
+
+.text-heading-responsive {
+  font-size: clamp(1.25rem, 5vw, 2rem);
+  line-height: 1.3;
+}
+
+.text-body-responsive {
+  font-size: clamp(0.875rem, 3vw, 1rem);
+  line-height: 1.6;
+}
+
+/* Text alignment and overflow prevention */
+.text-safe {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-width: 100%;
+}
+
+/* ============================================================================
+   COLORS & ACCENTS
+   ============================================================================ */
+
+.text-gold {
+  color: #d4af37;
+}
+
+.text-gold-muted {
+  color: rgba(212, 175, 55, 0.7);
+}
+
+.text-light {
+  color: #f5f1e8;
+}
+
+.text-light-muted {
+  color: rgba(245, 241, 232, 0.6);
+}
+
+.border-gold {
+  border-color: rgba(212, 175, 55, 0.5);
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #d4af37, #f4d03f);
+}
+
+.bg-gold-subtle {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.15),
+    rgba(138, 154, 91, 0.15)
+  );
+}
+
+/* ============================================================================
+   SELECTION STATES
+   ============================================================================ */
+
+.selection-tile {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.selection-tile-unselected {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.selection-tile-selected {
+  background: linear-gradient(
+    135deg,
+    rgba(212, 175, 55, 0.15),
+    rgba(138, 154, 91, 0.15)
+  );
+  border: 1px solid rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* ============================================================================
+   BUTTONS
+   ============================================================================ */
+
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37, #f4d03f);
+  color: #1a2e1a;
+  font-family: Inter, Montserrat, sans-serif;
+  font-size: clamp(0.75rem, 3vw, 0.875rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: clamp(0.875rem, 3.5vw, 1rem) clamp(1.5rem, 6vw, 2rem);
+  border-radius: 9999px;
+  border: none;
+  box-shadow: 0 4px 20px rgba(212, 175, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  min-height: 48px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 12px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:disabled {
+  background: rgba(245, 241, 232, 0.1);
+  color: rgba(245, 241, 232, 0.3);
+  box-shadow: none;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  color: #d4af37;
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  background: rgba(212, 175, 55, 0.06);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-family: Inter, Montserrat, sans-serif;
+  font-size: clamp(0.75rem, 3vw, 0.875rem);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: clamp(0.875rem, 3.5vw, 1rem) clamp(1.5rem, 6vw, 2rem);
+  border-radius: 9999px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  min-height: 48px;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.12);
+  border-color: rgba(212, 175, 55, 0.5);
+  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: translateY(-1px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ============================================================================
+   INPUTS
+   ============================================================================ */
+
+.input-field {
+  width: 100%;
+  padding: 1rem 1.25rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(245, 241, 232, 0.2);
+  color: #f5f1e8;
+  font-family: Georgia, 'Playfair Display', serif;
+  font-size: clamp(0.875rem, 3vw, 1rem);
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  min-height: 52px;
+}
+
+.input-field:focus,
+.input-field.has-value {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* ============================================================================
+   RESPONSIVE UTILITIES
+   ============================================================================ */
+
+.container-mobile {
+  max-width: 100%;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container-mobile {
+    max-width: 42rem;
+    padding: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container-mobile {
+    max-width: 56rem;
+    padding: 2rem;
+  }
+}
+
+/* ============================================================================
+   MOBILE OPTIMIZATIONS
+   ============================================================================ */
+
+/* Prevent text overflow on all devices */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Ensure proper text sizing on mobile */
+@media (max-width: 640px) {
+  body {
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px; /* Prevents zoom on focus */
+  }
+}
+
+/* Safe area insets for notched devices */
+@supports (padding: env(safe-area-inset-top)) {
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+
+/* Focus visible for keyboard navigation */
+.focus-visible:focus-visible {
+  outline: 2px solid #d4af37;
+  outline-offset: 2px;
+}
+
+@media (max-width: 640px) {
+  .wm-screen-centered {
+    align-items: stretch;
+    padding: 1.5rem 1rem;
+  }
+
+  .wm-content {
+    margin-block: auto;
+  }
+
+  .wm-instruction-card {
+    border-radius: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gradient-bg-animated,
+  .gradient-overlay-animated,
+  .wm-enter,
+  .wm-enter-delayed {
+    animation: none;
+  }
+
+  .selection-tile,
+  .btn-primary,
+  .btn-secondary,
+  .input-field {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* C7: Archetype description card reveal animation */
+@keyframes archetypeReveal {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    max-height: 600px;
+  }
+}
+
+.archetype-description-reveal {
+  animation: archetypeReveal 320ms ease-out;
+  overflow: hidden;
+}
