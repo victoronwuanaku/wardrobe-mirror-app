@@ -248,7 +248,9 @@ export function MirrorGame() {
 
     if (previousStep) {
       // Re-seed textInputValue so Continue is enabled on back-nav.
-      const textFieldKeys: string[] = ['howLongHad', 'cost', 'whyBoughtOther'];
+      // (Only real, non-last step ids belong here; 'whyBought' is Set A's final
+      // question so it can't be back-navigated into, hence no entry for it.)
+      const textFieldKeys: string[] = ['howLongHad', 'cost'];
       const companion = COMPANION_FIELD[previousStep.id];
       if (textFieldKeys.includes(previousStep.id)) {
         const saved = (currentResponse as Record<string, unknown>)[previousStep.id] as string | undefined;
