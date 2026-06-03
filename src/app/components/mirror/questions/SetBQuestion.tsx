@@ -173,7 +173,7 @@ export function SetBQuestion(props: SetBQuestionProps) {
                 inputMode="numeric"
                 pattern="[0-9]*"
                 value={textInputValue}
-                onChange={(e) => setTextInputValue(e.target.value)}
+                onChange={(e) => setTextInputValue(e.target.value.replace(/[^0-9]/g, ''))}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && textInputValue.trim()) submitTextAnswer('cost');
                 }}
