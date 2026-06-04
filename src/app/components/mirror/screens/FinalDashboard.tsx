@@ -12,6 +12,7 @@ import {
   Share2,
   ShoppingBag,
   Sparkles,
+  TrendingDown,
   TrendingUp,
   Users,
   Wrench,
@@ -19,7 +20,8 @@ import {
 import { ARCHETYPE_INFO } from '../constants/archetypes';
 import { exportGameData, exportCSV } from '../lib/export';
 import { submitToSupabase } from '../lib/supabase';
-import { calculateValuesFromMirrorGame, calculatePersona, getMirrorInsights } from '../lib/scoring';
+import { calculateValuesFromMirrorGame, calculatePersona, getMirrorInsights, calculateExpectationProfile, calculateReflectionConfidence } from '../lib/scoring';
+import { formatDelta } from '../lib/display-helpers';
 import { ValueFingerprintRadar } from '../ui/ValueFingerprintRadar';
 import type {
   BaselineResponses,
@@ -51,6 +53,17 @@ interface FinalDashboardProps {
   onShareResults: (persona: PersonaProfile) => void;
 }
 
+function DeltaChip({ reflected, expectation }: { reflected: number; expectation: number }) {
+  const d = formatDelta(reflected, expectation);
+  const color = d.sign === 'down' ? 'text-amber-400' : d.sign === 'flat' ? 'text-white/50' : 'text-emerald-400';
+  return (
+    <span className={`flex items-center gap-1 ${color}`}>
+      {d.sign === 'down' ? <TrendingDown className="w-3 h-3 flex-shrink-0" /> : <TrendingUp className="w-3 h-3 flex-shrink-0" />}
+      <span className="text-xs sm:text-sm">{d.label}</span>
+    </span>
+  );
+}
+
 export function FinalDashboard(props: FinalDashboardProps) {
   const {
     allResponses, baselineResponses, sessionId, sessionStartTime,
@@ -65,19 +78,9 @@ export function FinalDashboard(props: FinalDashboardProps) {
     const insights = getMirrorInsights(allResponses, baselineResponses, persona);
     const finalGameData: GameData = { sessionId, timestamp: sessionStartTime, setsCompleted: allResponses.length, baselineResponses, values, persona: persona.name, responses: allResponses };
 
-    // Baseline values — mirrors the first block of calculateValuesFromMirrorGame (before per-response loop)
-    const baselineValues = { social: 35, emotional: 35, functional: 35, inflowOutflow: 35 };
-    if (baselineResponses) {
-      if (baselineResponses.primaryDriver === 'social') baselineValues.social += 20;
-      if (baselineResponses.primaryDriver === 'emotion') baselineValues.emotional += 20;
-      if (baselineResponses.primaryDriver === 'function') baselineValues.functional += 20;
-      if (baselineResponses.wardrobeSize === 'extensive') baselineValues.inflowOutflow += 12;
-      if (baselineResponses.wardrobeSize === 'minimal') baselineValues.functional += 10;
-      if (baselineResponses.shoppingFrequency === 'frequently') baselineValues.inflowOutflow += 20;
-      if (baselineResponses.shoppingFrequency === 'rarely') baselineValues.functional += 8;
-      if (baselineResponses.disposalHabit === 'regularly') baselineValues.inflowOutflow += 18;
-      if (baselineResponses.disposalHabit === 'rarely') baselineValues.emotional += 10;
-    }
+    // Expectation profile (self-image) from baseline only — the comparison reference.
+    const baselineValues = calculateExpectationProfile(baselineResponses);
+    const confidence = calculateReflectionConfidence(allResponses);
 
     return (
       <div className="min-h-screen flex flex-col relative overflow-hidden">
@@ -236,12 +239,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.social}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.social - baselineValues.social}</span>
-                          </span>
+                          <DeltaChip reflected={values.social} expectation={baselineValues.social} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.social}</span>
                         </div>
                       </div>
@@ -263,12 +261,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.emotional}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.emotional - baselineValues.emotional}</span>
-                          </span>
+                          <DeltaChip reflected={values.emotional} expectation={baselineValues.emotional} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.emotional}</span>
                         </div>
                       </div>
@@ -290,12 +283,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.functional}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.functional - baselineValues.functional}</span>
-                          </span>
+                          <DeltaChip reflected={values.functional} expectation={baselineValues.functional} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.functional}</span>
                         </div>
                       </div>
@@ -317,12 +305,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.inflowOutflow}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.inflowOutflow - baselineValues.inflowOutflow}</span>
-                          </span>
+                          <DeltaChip reflected={values.inflowOutflow} expectation={baselineValues.inflowOutflow} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.inflowOutflow}</span>
                         </div>
                       </div>
