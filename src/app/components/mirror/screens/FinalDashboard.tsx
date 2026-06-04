@@ -429,7 +429,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
 
                   <div className="p-4 sm:p-6 lg:p-8 rounded-2xl glass-card">
                     <div className="flex items-center justify-center py-4">
-                      <ValueFingerprintRadar values={values} />
+                      <ValueFingerprintRadar values={values} expectation={baselineValues} />
                     </div>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-6 text-xs sm:text-sm px-4">
                       <div className="flex items-center gap-2">
