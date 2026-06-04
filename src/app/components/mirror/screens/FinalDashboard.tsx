@@ -212,6 +212,12 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         {persona.poeticDescription}
                       </p>
 
+                      {confidence !== 'high' && (
+                        <p className="text-[11px] text-white/50 font-light italic px-4 text-center">
+                          Provisional result — based on {allResponses.length} of 3 garment sets. Completing more sharpens your profile.
+                        </p>
+                      )}
+
                       {/* Reflection Prompt — C1 contrast fix: warm gradient → dark glass */}
                       <div className="w-full max-w-lg p-4 sm:p-6 rounded-xl glass-card">
                         <div className="text-[10px] sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[#d4af37] font-medium mb-3 sm:mb-4 text-center" style={{
