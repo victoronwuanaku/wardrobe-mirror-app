@@ -63,8 +63,8 @@ Colors are defined in the `COLORS` object in `src/app/components/mirror/constant
 
 1. Welcome screen
 2. Baseline — 4 questions (wardrobeSize, shoppingFrequency, disposalHabit, primaryDriver). No gender/age.
-3. Set A — Recent purchase (7 questions)
-4. Set B — Favourite garment (up to 12 questions, some optional)
+3. Set A — Recent purchase (6 questions)
+4. Set B — Favourite garment (9 questions; last 2 — washFrequency, repaired — are optional)
 5. Set C — Ready to dispose (6 questions)
 6. Final dashboard — persona archetype, value radar, insights, data export tab
 
@@ -192,10 +192,22 @@ All documented in `Bug.md` with plain-language descriptions.
 
 ---
 
+## Scoring methodology (redesigned, June 2026)
+
+Scoring is now a theory-grounded, two-profile model (replacing the old additive scheme). See `docs/scoring-methodology.md` for the summary and `docs/superpowers/specs/2026-06-04-scoring-methodology-redesign-design.md` for the full spec.
+
+- **Anchor:** Theory of Consumption Values (Sheth et al. 1991) for functional/social/emotional; circular-economy literature for the 4th axis (`inflowOutflow`, shown as **"Circularity"**).
+- **Two profiles:** baseline → *expectation* profile; Sets A/B/C → *reflected* (behavioural) profile; archetype assigned from the reflected profile via **prototype distance** (not the old threshold cascade).
+- **Per-axis normalization:** `score = 50 + 50·(Σ w·s / Σ w)` — 50 = neutral, signed evidence, completion-invariant.
+- **Now scored** (previously deferred): `washFrequency`, `howLongHad` (Set B categorical + Set C years), and `cost` are mapped to constructs. `brand` remains legacy/never-written. The old `TODO (research team decision)` in scoring is resolved.
+- **Code:** `lib/scoring.ts` (public API, unchanged signatures) delegates to `lib/scoring-engine.ts` (pure functions) + `lib/scoring-config.ts` (weight tables + prototypes as data). Unit-tested in `tests/scoring-engine.test.ts` and `tests/scoring.test.ts`.
+- **Storage:** reflected values still write to the existing `*_value` columns + `persona` (no DB migration). Pre-redesign rows are not directly comparable to new rows.
+- **Caveat:** weights/prototypes are expert-set v1 priors — *theory-aligned, not yet empirically validated*.
+
 ## Known deferred issues
 
 - **Consent screen** — `consent_given` and `consent_timestamp` columns exist in the DB schema but are always `null`. GDPR open exposure remains.
-- **Scorer for `washFrequency`, `brand`, `howLongHad`** — collected by UI but not scored. `TODO` comment in `calculateValuesFromMirrorGame()`. Awaiting research team decision.
+- **Scoring calibration** — the redesigned scoring's item weights and archetype prototype coordinates are expert-set starting values; the research team should review for face validity and ideally calibrate against a participant sample.
 
 ---
 
