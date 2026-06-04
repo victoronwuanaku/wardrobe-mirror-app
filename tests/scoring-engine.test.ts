@@ -84,3 +84,36 @@ describe('baseline specs + prototypes', () => {
     }
   });
 });
+
+import { scoreProfile } from '../src/app/components/mirror/lib/scoring-engine';
+
+describe('scoreProfile', () => {
+  it('returns neutral 50 on every axis with no evidence', () => {
+    const { values } = scoreProfile([]);
+    expect(values).toEqual({ functional: 50, social: 50, emotional: 50, inflowOutflow: 50 });
+  });
+
+  it('scores a single strong-functional behavioural answer above neutral on functional', () => {
+    // wearFrequency once-a-week -> functional +1 (w2, primary), inflowOutflow +0.5 (w1)
+    const { values } = scoreProfile([[BEHAVIOUR_SPECS.wearFrequency, 'once-a-week']]);
+    // functional: 50 + 50*(2*1 / 2) = 100 ; inflowOutflow: 50 + 50*(1*0.5 / 1) = 75
+    expect(values.functional).toBe(100);
+    expect(values.inflowOutflow).toBe(75);
+    expect(values.social).toBe(50);    // no evidence
+    expect(values.emotional).toBe(50); // no evidence
+  });
+
+  it('counts a primary-probe neutral answer in the denominator (pulls toward 50)', () => {
+    // mainUse ['work'] -> functional primary +1 ; social primary but neutral (0) -> den counts, num 0
+    const { values, evidence } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work']]]);
+    expect(values.functional).toBe(100); // 50 + 50*(2*1/2)
+    expect(values.social).toBe(50);      // primary, neutral -> den=2 num=0 -> 50
+    expect(evidence.social).toBe(2);     // social denominator recorded
+  });
+
+  it('uses max-magnitude direction per axis for multi-select', () => {
+    // mainUse ['work','not-in-use'] -> functional: max(|+1|,|-1|) first wins -> +1
+    const { values } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work', 'not-in-use']]]);
+    expect(values.functional).toBe(100);
+  });
+});
