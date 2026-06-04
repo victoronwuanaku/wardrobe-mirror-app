@@ -59,7 +59,7 @@ export function WelcomeScreen({ shouldReduceMotion, onStart }: WelcomeScreenProp
                 <div className="wm-instruction-row">
                   <div className="wm-instruction-index">1</div>
                   <p className="wm-instruction-text text-safe">
-                    Answer questions about up to 3 garments from your wardrobe — you can stop after any one
+                    Answer questions about up to 3 garments from your wardrobe
                   </p>
                 </div>
                 <div className="wm-instruction-row">
