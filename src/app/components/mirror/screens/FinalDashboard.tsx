@@ -8,12 +8,10 @@ import {
   Info,
   LayoutDashboard,
   List,
-  Minus,
   Package,
   Share2,
   ShoppingBag,
   Sparkles,
-  TrendingDown,
   TrendingUp,
   Users,
   Wrench,
@@ -22,7 +20,6 @@ import { ARCHETYPE_INFO } from '../constants/archetypes';
 import { exportGameData, exportCSV } from '../lib/export';
 import { submitToSupabase } from '../lib/supabase';
 import { calculateValuesFromMirrorGame, calculatePersona, getMirrorInsights, calculateExpectationProfile, calculateReflectionConfidence } from '../lib/scoring';
-import { formatDelta } from '../lib/display-helpers';
 import { ValueFingerprintRadar } from '../ui/ValueFingerprintRadar';
 import type {
   BaselineResponses,
@@ -52,17 +49,6 @@ interface FinalDashboardProps {
   onStartNewRun: () => void;
   onShareWithOthers: () => void;
   onShareResults: (persona: PersonaProfile) => void;
-}
-
-function DeltaChip({ reflected, expectation }: { reflected: number; expectation: number }) {
-  const d = formatDelta(reflected, expectation);
-  const color = d.sign === 'down' ? 'text-amber-400' : d.sign === 'flat' ? 'text-white/50' : 'text-emerald-400';
-  return (
-    <span className={`flex items-center gap-1 ${color}`}>
-      {d.sign === 'down' ? <TrendingDown className="w-3 h-3 flex-shrink-0" /> : d.sign === 'flat' ? <Minus className="w-3 h-3 flex-shrink-0" /> : <TrendingUp className="w-3 h-3 flex-shrink-0" />}
-      <span className="text-xs sm:text-sm">{d.label}</span>
-    </span>
-  );
 }
 
 export function FinalDashboard(props: FinalDashboardProps) {
@@ -225,88 +211,6 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         }}>Reflection Prompt</div>
                         <p className="text-xs sm:text-sm leading-relaxed text-white/90 font-light text-center">{persona.insight}</p>
                       </div>
-                    </div>
-                  </div>
-                </section>
-
-                {/* Baseline Comparison Section */}
-                <section className="space-y-6">
-                  <div className="text-center px-4">
-                    <h3 className="text-base sm:text-lg tracking-[0.2em] uppercase text-white/90 font-light mb-3">Baseline Comparison</h3>
-                    <p className="text-xs sm:text-sm text-white/60 font-light">How your values shifted during the reflection</p>
-                  </div>
-
-                  <div className="p-4 sm:p-6 lg:p-8 rounded-2xl space-y-5 sm:space-y-6 glass-card">
-                    {/* Social Value */}
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
-                        <div className="flex items-center gap-2 text-white/90 min-w-0 flex-shrink">
-                          <Compass className="w-4 h-4 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(212, 175, 55, 0.5))' }} />
-                          <span className="tracking-wider whitespace-nowrap">Social</span>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                          <span className="text-white/50 text-xs sm:text-sm">{baselineValues.social}</span>
-                          <DeltaChip reflected={values.social} expectation={baselineValues.social} />
-                          <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.social}</span>
-                        </div>
-                      </div>
-                      <div className="h-3 bg-black/20 rounded-full overflow-hidden backdrop-blur-sm">
-                        <div className="h-full rounded-full transition-all" style={{
-                          width: `${values.social}%`,
-                          background: 'linear-gradient(90deg, rgb(138, 154, 91), rgb(168, 196, 120))',
-                          boxShadow: '0 0 10px rgba(138, 154, 91, 0.5)'
-                        }} />
-                      </div>
-                    </div>
-
-                    {/* Emotional Value */}
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
-                        <div className="flex items-center gap-2 text-white/90 min-w-0 flex-shrink">
-                          <Heart className="w-4 h-4 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(236, 72, 153, 0.5))' }} />
-                          <span className="tracking-wider whitespace-nowrap">Emotional</span>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                          <span className="text-white/50 text-xs sm:text-sm">{baselineValues.emotional}</span>
-                          <DeltaChip reflected={values.emotional} expectation={baselineValues.emotional} />
-                          <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.emotional}</span>
-                        </div>
-                      </div>
-                      <div className="h-3 bg-black/20 rounded-full overflow-hidden backdrop-blur-sm">
-                        <div className="h-full rounded-full transition-all" style={{
-                          width: `${values.emotional}%`,
-                          background: 'linear-gradient(90deg, rgb(236, 72, 153), rgb(244, 114, 182))',
-                          boxShadow: '0 0 10px rgba(236, 72, 153, 0.5)'
-                        }} />
-                      </div>
-                    </div>
-
-                    {/* Functional Value */}
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
-                        <div className="flex items-center gap-2 text-white/90 min-w-0 flex-shrink">
-                          <Wrench className="w-4 h-4 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(59, 130, 246, 0.5))' }} />
-                          <span className="tracking-wider whitespace-nowrap">Functional</span>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                          <span className="text-white/50 text-xs sm:text-sm">{baselineValues.functional}</span>
-                          <DeltaChip reflected={values.functional} expectation={baselineValues.functional} />
-                          <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.functional}</span>
-                        </div>
-                      </div>
-                      <div className="h-3 bg-black/20 rounded-full overflow-hidden backdrop-blur-sm">
-                        <div className="h-full rounded-full transition-all" style={{
-                          width: `${values.functional}%`,
-                          background: 'linear-gradient(90deg, rgb(59, 130, 246), rgb(96, 165, 250))',
-                          boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)'
-                        }} />
-                      </div>
-                    </div>
-
-                    <div className="pt-5 border-t border-white/10">
-                      <p className="text-[10px] text-center text-white/60 font-light">
-                        Started as <span className="text-[#d4af37] font-medium" style={{ textShadow: '0 0 8px rgba(212, 175, 55, 0.5)' }}>{baselineResponses?.primaryDriver === 'function' ? 'Guardian' : baselineResponses?.primaryDriver === 'emotion' ? 'Memory Keeper' : 'Explorer'}</span> • Reflected as <span className="text-[#d4af37] font-medium" style={{ textShadow: '0 0 8px rgba(212, 175, 55, 0.5)' }}>{persona.name}</span>
-                      </p>
                     </div>
                   </div>
                 </section>
