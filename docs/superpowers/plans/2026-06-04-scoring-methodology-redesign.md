@@ -497,7 +497,7 @@ This is the engine that turns a list of `(spec, answer)` pairs into a `ValueMete
 
 ```ts
 import { scoreProfile } from '../src/app/components/mirror/lib/scoring-engine';
-import { BEHAVIOUR_SPECS } from '../src/app/components/mirror/lib/scoring-config';
+// NOTE: BEHAVIOUR_SPECS is already imported at the top of this file (Task 2) — do not re-import it.
 
 describe('scoreProfile', () => {
   it('returns neutral 50 on every axis with no evidence', () => {
