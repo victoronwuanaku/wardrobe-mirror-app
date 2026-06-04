@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { normalizeAxis, scoreProfile, scoreReflected, scoreExpectation } from '../src/app/components/mirror/lib/scoring-engine';
+import { normalizeAxis, scoreProfile, scoreReflected, scoreExpectation, assignArchetype, calculateConfidenceLevel } from '../src/app/components/mirror/lib/scoring-engine';
 import { BEHAVIOUR_SPECS, costBand, yearsBand } from '../src/app/components/mirror/lib/scoring-config';
 import { BASELINE_SPECS, PROTOTYPES, type ArchetypeKey } from '../src/app/components/mirror/lib/scoring-config';
 import type { SetAResponse, BaselineResponses } from '../src/app/components/mirror/types';
@@ -170,5 +170,38 @@ describe('scoreExpectation', () => {
 
   it('returns all-neutral when baseline is null', () => {
     expect(scoreExpectation(null).values).toEqual({ functional: 50, social: 50, emotional: 50, inflowOutflow: 50 });
+  });
+});
+
+describe('assignArchetype', () => {
+  it('maps each exact prototype to its own archetype key', () => {
+    expect(assignArchetype(PROTOTYPES.functionalMinimalist)).toBe('functionalMinimalist');
+    expect(assignArchetype(PROTOTYPES.socialChameleon)).toBe('socialChameleon');
+    expect(assignArchetype(PROTOTYPES.memoryKeeper)).toBe('memoryKeeper');
+    expect(assignArchetype(PROTOTYPES.identityCollector)).toBe('identityCollector');
+    expect(assignArchetype(PROTOTYPES.consciousCurator)).toBe('consciousCurator');
+    expect(assignArchetype(PROTOTYPES.balancedAdapter)).toBe('balancedAdapter');
+  });
+
+  it('resolves a near-flat profile to balancedAdapter via the dominance gate', () => {
+    // spread 8 < 12 -> balanced even though numbers lean functional
+    expect(assignArchetype({ functional: 58, social: 52, emotional: 55, inflowOutflow: 50 })).toBe('balancedAdapter');
+  });
+
+  it('assigns a clearly functional profile to functionalMinimalist', () => {
+    expect(assignArchetype({ functional: 90, social: 40, emotional: 40, inflowOutflow: 55 })).toBe('functionalMinimalist');
+  });
+
+  it('assigns a high-circularity profile to consciousCurator (not the old conflation)', () => {
+    expect(assignArchetype({ functional: 55, social: 45, emotional: 50, inflowOutflow: 88 })).toBe('consciousCurator');
+  });
+});
+
+describe('calculateConfidenceLevel', () => {
+  it('grades by behavioural sets completed', () => {
+    expect(calculateConfidenceLevel(0)).toBe('low');
+    expect(calculateConfidenceLevel(1)).toBe('low');
+    expect(calculateConfidenceLevel(2)).toBe('medium');
+    expect(calculateConfidenceLevel(3)).toBe('high');
   });
 });

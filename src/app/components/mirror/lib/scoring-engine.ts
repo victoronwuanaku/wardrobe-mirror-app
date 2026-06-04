@@ -1,5 +1,6 @@
 import type { ValueMeters, SetResponse, BaselineResponses } from '../types';
 import { type ItemSpec, type Axis, BEHAVIOUR_SPECS, BASELINE_SPECS } from './scoring-config';
+import { PROTOTYPES, FLAT_PROFILE_SPREAD, type ArchetypeKey } from './scoring-config';
 
 const clamp = (n: number, lo = 0, hi = 100) => Math.max(lo, Math.min(hi, n));
 
@@ -104,4 +105,39 @@ export function scoreExpectation(baseline: BaselineResponses | null | undefined)
     items.push([BASELINE_SPECS[field], value]);
   }
   return scoreProfile(items);
+}
+
+function distance(a: ValueMeters, b: ValueMeters): number {
+  return Math.sqrt(
+    (a.functional - b.functional) ** 2 +
+    (a.social - b.social) ** 2 +
+    (a.emotional - b.emotional) ** 2 +
+    (a.inflowOutflow - b.inflowOutflow) ** 2,
+  );
+}
+
+export function assignArchetype(reflected: ValueMeters): ArchetypeKey {
+  const vals = [reflected.functional, reflected.social, reflected.emotional, reflected.inflowOutflow];
+  if (Math.max(...vals) - Math.min(...vals) < FLAT_PROFILE_SPREAD) return 'balancedAdapter';
+
+  // argmin distance; deterministic table order breaks ties.
+  const order: ArchetypeKey[] = [
+    'functionalMinimalist', 'socialChameleon', 'memoryKeeper',
+    'identityCollector', 'consciousCurator', 'balancedAdapter',
+  ];
+  let best: ArchetypeKey = 'balancedAdapter';
+  let bestD = Infinity;
+  for (const key of order) {
+    const d = distance(reflected, PROTOTYPES[key]);
+    if (d < bestD) { bestD = d; best = key; }
+  }
+  return best;
+}
+
+export type ConfidenceLevel = 'low' | 'medium' | 'high';
+
+export function calculateConfidenceLevel(behaviouralSetsCompleted: number): ConfidenceLevel {
+  if (behaviouralSetsCompleted >= 3) return 'high';
+  if (behaviouralSetsCompleted === 2) return 'medium';
+  return 'low';
 }
