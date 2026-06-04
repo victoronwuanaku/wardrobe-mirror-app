@@ -303,28 +303,6 @@ export function FinalDashboard(props: FinalDashboardProps) {
                       </div>
                     </div>
 
-                    {/* Circularity Value */}
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
-                        <div className="flex items-center gap-2 text-white/90 min-w-0 flex-shrink">
-                          <DoorOpen className="w-4 h-4 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(139, 92, 246, 0.5))' }} />
-                          <span className="tracking-wider whitespace-nowrap">Circularity</span>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                          <span className="text-white/50 text-xs sm:text-sm">{baselineValues.inflowOutflow}</span>
-                          <DeltaChip reflected={values.inflowOutflow} expectation={baselineValues.inflowOutflow} />
-                          <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.inflowOutflow}</span>
-                        </div>
-                      </div>
-                      <div className="h-3 bg-black/20 rounded-full overflow-hidden backdrop-blur-sm">
-                        <div className="h-full rounded-full transition-all" style={{
-                          width: `${values.inflowOutflow}%`,
-                          background: 'linear-gradient(90deg, rgb(139, 92, 246), rgb(167, 139, 250))',
-                          boxShadow: '0 0 10px rgba(139, 92, 246, 0.5)'
-                        }} />
-                      </div>
-                    </div>
-
                     <div className="pt-5 border-t border-white/10">
                       <p className="text-[10px] text-center text-white/60 font-light">
                         Started as <span className="text-[#d4af37] font-medium" style={{ textShadow: '0 0 8px rgba(212, 175, 55, 0.5)' }}>{baselineResponses?.primaryDriver === 'function' ? 'Guardian' : baselineResponses?.primaryDriver === 'emotion' ? 'Memory Keeper' : 'Explorer'}</span> • Reflected as <span className="text-[#d4af37] font-medium" style={{ textShadow: '0 0 8px rgba(212, 175, 55, 0.5)' }}>{persona.name}</span>

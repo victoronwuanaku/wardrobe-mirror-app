@@ -6,11 +6,10 @@ const AXES: Array<{ key: keyof ValueMeters; label: string }> = [
   { key: 'social', label: 'Social' },
   { key: 'emotional', label: 'Emotional' },
   { key: 'functional', label: 'Functional' },
-  { key: 'inflowOutflow', label: 'Circularity' },
 ];
 
 export function ValueFingerprintRadar({ values, expectation }: { values: ValueMeters; expectation?: ValueMeters }) {
-  const size = 300, center = size / 2, maxRadius = 85;
+  const size = 300, center = size / 2, maxRadius = 105;
 
   const toPoints = (v: ValueMeters) =>
     AXES.map((axis, index) => {
@@ -24,8 +23,8 @@ export function ValueFingerprintRadar({ values, expectation }: { values: ValueMe
     return {
       ...axis,
       value: values[axis.key],
-      lx: center + Math.cos(angle) * (maxRadius + 22),
-      ly: center + Math.sin(angle) * (maxRadius + 22),
+      lx: center + Math.cos(angle) * (maxRadius + 32),
+      ly: center + Math.sin(angle) * (maxRadius + 32),
     };
   });
 
