@@ -768,7 +768,7 @@ git commit -m "feat(scoring): add reflected and expectation profile scorers"
 
 ```ts
 import { assignArchetype, calculateConfidenceLevel } from '../src/app/components/mirror/lib/scoring-engine';
-import { PROTOTYPES } from '../src/app/components/mirror/lib/scoring-config';
+// NOTE: PROTOTYPES is already imported at the top of this file (Task 3) — do not re-import it.
 
 describe('assignArchetype', () => {
   it('maps each exact prototype to its own archetype key', () => {
