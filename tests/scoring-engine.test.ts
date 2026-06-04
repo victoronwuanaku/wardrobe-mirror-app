@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { normalizeAxis } from '../src/app/components/mirror/lib/scoring-engine';
 import { BEHAVIOUR_SPECS, costBand, yearsBand } from '../src/app/components/mirror/lib/scoring-config';
+import { BASELINE_SPECS, PROTOTYPES, type ArchetypeKey } from '../src/app/components/mirror/lib/scoring-config';
 
 describe('normalizeAxis', () => {
   it('returns neutral 50 when there is no evidence (den = 0)', () => {
@@ -58,6 +59,28 @@ describe('behaviour specs shape', () => {
           expect(v).toBeLessThanOrEqual(1);
         }
       }
+    }
+  });
+});
+
+describe('baseline specs + prototypes', () => {
+  it('declares a spec for every baseline field', () => {
+    for (const key of ['primaryDriver', 'wardrobeSize', 'shoppingFrequency', 'disposalHabit']) {
+      expect(BASELINE_SPECS[key]).toBeDefined();
+    }
+  });
+  it('defines all six archetype prototypes with four axes each', () => {
+    const keys: ArchetypeKey[] = [
+      'functionalMinimalist', 'socialChameleon', 'memoryKeeper',
+      'identityCollector', 'consciousCurator', 'balancedAdapter',
+    ];
+    for (const k of keys) {
+      const p = PROTOTYPES[k];
+      expect(p).toBeDefined();
+      expect(typeof p.functional).toBe('number');
+      expect(typeof p.social).toBe('number');
+      expect(typeof p.emotional).toBe('number');
+      expect(typeof p.inflowOutflow).toBe('number');
     }
   });
 });

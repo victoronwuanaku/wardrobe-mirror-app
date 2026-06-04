@@ -180,3 +180,64 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
     },
   },
 };
+
+// Baseline items -> Expectation profile (spec §4.2). primaryDriver is the one ipsative item.
+export const BASELINE_SPECS: Record<string, ItemSpec> = {
+  primaryDriver: {
+    salience: { functional: W.moderate, social: W.moderate, emotional: W.moderate },
+    primary: [],
+    directions: {
+      'function': { functional: 1, social: -0.5, emotional: -0.5 },
+      'emotion': { emotional: 1, functional: -0.5, social: -0.5 },
+      'social': { social: 1, functional: -0.5, emotional: -0.5 },
+    },
+  },
+  wardrobeSize: {
+    salience: { inflowOutflow: W.moderate, functional: W.mild },
+    primary: ['inflowOutflow'],
+    directions: {
+      'minimal': { functional: 0.5, inflowOutflow: 1 },
+      'moderate': {},
+      'extensive': { inflowOutflow: -1 },
+    },
+  },
+  shoppingFrequency: {
+    salience: { inflowOutflow: W.moderate, functional: W.mild },
+    primary: ['inflowOutflow'],
+    directions: {
+      'rarely': { functional: 0.3, inflowOutflow: 1 },
+      'occasionally': {},
+      'frequently': { inflowOutflow: -1 },
+    },
+  },
+  disposalHabit: {
+    salience: { inflowOutflow: W.moderate, emotional: W.mild },
+    primary: ['inflowOutflow'],
+    directions: {
+      'rarely': { emotional: 0.5, inflowOutflow: -0.3 },
+      'periodically': {},
+      'regularly': { inflowOutflow: 0.5 },
+    },
+  },
+};
+
+export type ArchetypeKey =
+  | 'functionalMinimalist'
+  | 'socialChameleon'
+  | 'memoryKeeper'
+  | 'identityCollector'
+  | 'consciousCurator'
+  | 'balancedAdapter';
+
+// Prototype coordinates in [functional, social, emotional, inflowOutflow] space (spec §5).
+export const PROTOTYPES: Record<ArchetypeKey, ValueMeters> = {
+  functionalMinimalist: { functional: 85, social: 40, emotional: 35, inflowOutflow: 65 },
+  socialChameleon:      { functional: 50, social: 85, emotional: 45, inflowOutflow: 30 },
+  memoryKeeper:         { functional: 40, social: 40, emotional: 90, inflowOutflow: 55 },
+  identityCollector:    { functional: 45, social: 70, emotional: 75, inflowOutflow: 45 },
+  consciousCurator:     { functional: 60, social: 45, emotional: 50, inflowOutflow: 90 },
+  balancedAdapter:      { functional: 55, social: 55, emotional: 55, inflowOutflow: 55 },
+};
+
+// A genuinely flat profile (max - min below this spread) resolves to Balanced Adapter.
+export const FLAT_PROFILE_SPREAD = 12;
