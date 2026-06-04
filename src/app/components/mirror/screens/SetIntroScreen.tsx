@@ -31,7 +31,7 @@ export function SetIntroScreen({ shouldReduceMotion, currentSet, onStartSet }: S
           </div>
           <div className="glass-card p-6 sm:p-7 rounded-2xl">
             <p className="text-body-responsive text-sans-clean text-light-muted text-safe">
-              We'll ask you 7 questions about this garment
+              We'll ask you 6 questions about this garment
             </p>
           </div>
           <ContinueButton onClick={onStartSet} label="Start Set A" />
@@ -49,7 +49,7 @@ export function SetIntroScreen({ shouldReduceMotion, currentSet, onStartSet }: S
           </div>
           <div className="glass-card p-6 sm:p-7 rounded-2xl">
             <p className="text-body-responsive text-sans-clean text-light-muted text-safe">
-              We'll ask you up to 12 questions about this garment (some optional)
+              We'll ask you 9 questions about this garment (the last 2 are optional)
             </p>
           </div>
           <ContinueButton onClick={onStartSet} label="Start Set B" />

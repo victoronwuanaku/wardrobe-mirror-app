@@ -63,8 +63,8 @@ Colors are defined in the `COLORS` object in `src/app/components/mirror/constant
 
 1. Welcome screen
 2. Baseline — 4 questions (wardrobeSize, shoppingFrequency, disposalHabit, primaryDriver). No gender/age.
-3. Set A — Recent purchase (7 questions)
-4. Set B — Favourite garment (up to 12 questions, some optional)
+3. Set A — Recent purchase (6 questions)
+4. Set B — Favourite garment (9 questions; last 2 — washFrequency, repaired — are optional)
 5. Set C — Ready to dispose (6 questions)
 6. Final dashboard — persona archetype, value radar, insights, data export tab
 
