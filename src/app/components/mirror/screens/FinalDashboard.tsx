@@ -8,10 +8,12 @@ import {
   Info,
   LayoutDashboard,
   List,
+  Minus,
   Package,
   Share2,
   ShoppingBag,
   Sparkles,
+  TrendingDown,
   TrendingUp,
   Users,
   Wrench,
@@ -19,7 +21,8 @@ import {
 import { ARCHETYPE_INFO } from '../constants/archetypes';
 import { exportGameData, exportCSV } from '../lib/export';
 import { submitToSupabase } from '../lib/supabase';
-import { calculateValuesFromMirrorGame, calculatePersona, getMirrorInsights } from '../lib/scoring';
+import { calculateValuesFromMirrorGame, calculatePersona, getMirrorInsights, calculateExpectationProfile, calculateReflectionConfidence } from '../lib/scoring';
+import { formatDelta } from '../lib/display-helpers';
 import { ValueFingerprintRadar } from '../ui/ValueFingerprintRadar';
 import type {
   BaselineResponses,
@@ -51,6 +54,17 @@ interface FinalDashboardProps {
   onShareResults: (persona: PersonaProfile) => void;
 }
 
+function DeltaChip({ reflected, expectation }: { reflected: number; expectation: number }) {
+  const d = formatDelta(reflected, expectation);
+  const color = d.sign === 'down' ? 'text-amber-400' : d.sign === 'flat' ? 'text-white/50' : 'text-emerald-400';
+  return (
+    <span className={`flex items-center gap-1 ${color}`}>
+      {d.sign === 'down' ? <TrendingDown className="w-3 h-3 flex-shrink-0" /> : d.sign === 'flat' ? <Minus className="w-3 h-3 flex-shrink-0" /> : <TrendingUp className="w-3 h-3 flex-shrink-0" />}
+      <span className="text-xs sm:text-sm">{d.label}</span>
+    </span>
+  );
+}
+
 export function FinalDashboard(props: FinalDashboardProps) {
   const {
     allResponses, baselineResponses, sessionId, sessionStartTime,
@@ -65,19 +79,9 @@ export function FinalDashboard(props: FinalDashboardProps) {
     const insights = getMirrorInsights(allResponses, baselineResponses, persona);
     const finalGameData: GameData = { sessionId, timestamp: sessionStartTime, setsCompleted: allResponses.length, baselineResponses, values, persona: persona.name, responses: allResponses };
 
-    // Baseline values — mirrors the first block of calculateValuesFromMirrorGame (before per-response loop)
-    const baselineValues = { social: 35, emotional: 35, functional: 35, inflowOutflow: 35 };
-    if (baselineResponses) {
-      if (baselineResponses.primaryDriver === 'social') baselineValues.social += 20;
-      if (baselineResponses.primaryDriver === 'emotion') baselineValues.emotional += 20;
-      if (baselineResponses.primaryDriver === 'function') baselineValues.functional += 20;
-      if (baselineResponses.wardrobeSize === 'extensive') baselineValues.inflowOutflow += 12;
-      if (baselineResponses.wardrobeSize === 'minimal') baselineValues.functional += 10;
-      if (baselineResponses.shoppingFrequency === 'frequently') baselineValues.inflowOutflow += 20;
-      if (baselineResponses.shoppingFrequency === 'rarely') baselineValues.functional += 8;
-      if (baselineResponses.disposalHabit === 'regularly') baselineValues.inflowOutflow += 18;
-      if (baselineResponses.disposalHabit === 'rarely') baselineValues.emotional += 10;
-    }
+    // Expectation profile (self-image) from baseline only — the comparison reference.
+    const baselineValues = calculateExpectationProfile(baselineResponses);
+    const confidence = calculateReflectionConfidence(allResponses);
 
     return (
       <div className="min-h-screen flex flex-col relative overflow-hidden">
@@ -208,6 +212,12 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         {persona.poeticDescription}
                       </p>
 
+                      {confidence !== 'high' && (
+                        <p className="text-[11px] text-white/50 font-light italic px-4 text-center">
+                          Provisional result — based on {allResponses.length} of 3 garment sets. Completing more sharpens your profile.
+                        </p>
+                      )}
+
                       {/* Reflection Prompt — C1 contrast fix: warm gradient → dark glass */}
                       <div className="w-full max-w-lg p-4 sm:p-6 rounded-xl glass-card">
                         <div className="text-[10px] sm:text-xs tracking-[0.15em] sm:tracking-[0.2em] uppercase text-[#d4af37] font-medium mb-3 sm:mb-4 text-center" style={{
@@ -236,12 +246,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.social}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.social - baselineValues.social}</span>
-                          </span>
+                          <DeltaChip reflected={values.social} expectation={baselineValues.social} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.social}</span>
                         </div>
                       </div>
@@ -263,12 +268,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.emotional}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.emotional - baselineValues.emotional}</span>
-                          </span>
+                          <DeltaChip reflected={values.emotional} expectation={baselineValues.emotional} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.emotional}</span>
                         </div>
                       </div>
@@ -290,12 +290,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.functional}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.functional - baselineValues.functional}</span>
-                          </span>
+                          <DeltaChip reflected={values.functional} expectation={baselineValues.functional} />
                           <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.functional}</span>
                         </div>
                       </div>
@@ -304,33 +299,6 @@ export function FinalDashboard(props: FinalDashboardProps) {
                           width: `${values.functional}%`,
                           background: 'linear-gradient(90deg, rgb(59, 130, 246), rgb(96, 165, 250))',
                           boxShadow: '0 0 10px rgba(59, 130, 246, 0.5)'
-                        }} />
-                      </div>
-                    </div>
-
-                    {/* Flow Value */}
-                    <div className="space-y-2 sm:space-y-3">
-                      <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
-                        <div className="flex items-center gap-2 text-white/90 min-w-0 flex-shrink">
-                          <DoorOpen className="w-4 h-4 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(139, 92, 246, 0.5))' }} />
-                          <span className="tracking-wider whitespace-nowrap">Flow</span>
-                        </div>
-                        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-                          <span className="text-white/50 text-xs sm:text-sm">{baselineValues.inflowOutflow}</span>
-                          <span className="flex items-center gap-1 text-emerald-400" style={{
-                            filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.4))'
-                          }}>
-                            <TrendingUp className="w-3 h-3 flex-shrink-0" />
-                            <span className="text-xs sm:text-sm">+{values.inflowOutflow - baselineValues.inflowOutflow}</span>
-                          </span>
-                          <span className="font-medium text-white text-sm sm:text-base min-w-[2ch] text-right">{values.inflowOutflow}</span>
-                        </div>
-                      </div>
-                      <div className="h-3 bg-black/20 rounded-full overflow-hidden backdrop-blur-sm">
-                        <div className="h-full rounded-full transition-all" style={{
-                          width: `${values.inflowOutflow}%`,
-                          background: 'linear-gradient(90deg, rgb(139, 92, 246), rgb(167, 139, 250))',
-                          boxShadow: '0 0 10px rgba(139, 92, 246, 0.5)'
                         }} />
                       </div>
                     </div>
@@ -445,7 +413,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
 
                   <div className="p-4 sm:p-6 lg:p-8 rounded-2xl glass-card">
                     <div className="flex items-center justify-center py-4">
-                      <ValueFingerprintRadar values={values} />
+                      <ValueFingerprintRadar values={values} expectation={baselineValues} />
                     </div>
                     <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 mt-6 text-xs sm:text-sm px-4">
                       <div className="flex items-center gap-2">
