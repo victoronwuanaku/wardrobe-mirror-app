@@ -8,6 +8,7 @@ import {
   Info,
   LayoutDashboard,
   List,
+  Minus,
   Package,
   Share2,
   ShoppingBag,
@@ -58,7 +59,7 @@ function DeltaChip({ reflected, expectation }: { reflected: number; expectation:
   const color = d.sign === 'down' ? 'text-amber-400' : d.sign === 'flat' ? 'text-white/50' : 'text-emerald-400';
   return (
     <span className={`flex items-center gap-1 ${color}`}>
-      {d.sign === 'down' ? <TrendingDown className="w-3 h-3 flex-shrink-0" /> : <TrendingUp className="w-3 h-3 flex-shrink-0" />}
+      {d.sign === 'down' ? <TrendingDown className="w-3 h-3 flex-shrink-0" /> : d.sign === 'flat' ? <Minus className="w-3 h-3 flex-shrink-0" /> : <TrendingUp className="w-3 h-3 flex-shrink-0" />}
       <span className="text-xs sm:text-sm">{d.label}</span>
     </span>
   );
@@ -296,12 +297,12 @@ export function FinalDashboard(props: FinalDashboardProps) {
                       </div>
                     </div>
 
-                    {/* Flow Value */}
+                    {/* Circularity Value */}
                     <div className="space-y-2 sm:space-y-3">
                       <div className="flex items-center justify-between gap-2 text-xs sm:text-sm">
                         <div className="flex items-center gap-2 text-white/90 min-w-0 flex-shrink">
                           <DoorOpen className="w-4 h-4 flex-shrink-0" style={{ filter: 'drop-shadow(0 0 4px rgba(139, 92, 246, 0.5))' }} />
-                          <span className="tracking-wider whitespace-nowrap">Flow</span>
+                          <span className="tracking-wider whitespace-nowrap">Circularity</span>
                         </div>
                         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                           <span className="text-white/50 text-xs sm:text-sm">{baselineValues.inflowOutflow}</span>
