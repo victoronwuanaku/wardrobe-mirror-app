@@ -723,7 +723,7 @@ export function scoreReflected(responses: SetResponse[]): ScoredProfile {
   for (const response of responses) {
     const fields = REFLECTED_FIELDS[response.setType];
     for (const [field, specKey] of fields) {
-      const value = (response as Record<string, unknown>)[field];
+      const value = (response as unknown as Record<string, unknown>)[field];
       if (!isAnswered(value)) continue;
       if (specKey === 'cost' && Number.isNaN(parseInt(String(value), 10))) continue;
       items.push([BEHAVIOUR_SPECS[specKey], value]);
@@ -736,7 +736,7 @@ export function scoreExpectation(baseline: BaselineResponses | null | undefined)
   if (!baseline) return scoreProfile([]);
   const items: Array<[ItemSpec, Answer]> = [];
   for (const field of ['primaryDriver', 'wardrobeSize', 'shoppingFrequency', 'disposalHabit']) {
-    const value = (baseline as Record<string, unknown>)[field];
+    const value = (baseline as unknown as Record<string, unknown>)[field];
     if (!isAnswered(value)) continue;
     items.push([BASELINE_SPECS[field], value]);
   }
