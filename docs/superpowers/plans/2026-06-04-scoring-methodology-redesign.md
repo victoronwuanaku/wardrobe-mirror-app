@@ -79,7 +79,7 @@ Expected: FAIL — `normalizeAxis` is not exported / module not found.
 Create `src/app/components/mirror/lib/scoring-config.ts`:
 
 ```ts
-import type { ValueMeters } from './types';
+import type { ValueMeters } from '../types';
 
 // The four value axes are exactly the keys of ValueMeters (storage keys unchanged).
 // `inflowOutflow` is the storage key; it represents "Circularity consciousness" in the UI.
@@ -541,7 +541,7 @@ Expected: FAIL — `scoreProfile` not exported.
 First add these imports at the **top** of `scoring-engine.ts` (above `normalizeAxis`):
 
 ```ts
-import type { ValueMeters } from './types';
+import type { ValueMeters } from '../types';
 import { type ItemSpec, type Axis } from './scoring-config';
 ```
 
@@ -695,7 +695,7 @@ Expected: FAIL — `scoreReflected`, `scoreExpectation` not exported.
 Add these imports at the **top** of `scoring-engine.ts` (alongside the existing imports):
 
 ```ts
-import type { SetResponse, BaselineResponses } from './types';
+import type { SetResponse, BaselineResponses } from '../types';
 import { BEHAVIOUR_SPECS, BASELINE_SPECS } from './scoring-config';
 ```
 
