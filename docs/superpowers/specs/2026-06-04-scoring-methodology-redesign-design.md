@@ -330,9 +330,9 @@ The intent is that the weights and prototypes live as **data tables** (auditable
 
 ---
 
-## 9. Downstream consequences (out of scope for this spec — recorded for the follow-up)
+## 9. Downstream consequences (display follow-up — included in implementation, staged second)
 
-These follow from the methodology but are **display / schema** work, to be planned separately:
+These follow from the methodology but are **display / schema** work. Per the implementation-scope decision, they are **included in the implementation plan as a staged second phase** (the scoring core lands and is verified first; this display phase can then be approved or deferred independently):
 
 1. **Radar** (`ValueFingerprintRadar.tsx`): should plot **two polygons** (expectation dashed + reflected solid) and include the **4th axis** — which makes the *already-present* legend truthful (fixes D2). Currently it plots one polygon over three axes.
 2. **Baseline-comparison bars** (`FinalDashboard.tsx`): must allow **negative** deltas (the green "+" up-arrow is currently hardcoded).
