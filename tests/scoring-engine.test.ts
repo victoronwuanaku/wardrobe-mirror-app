@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
-import { normalizeAxis } from '../src/app/components/mirror/lib/scoring-engine';
+import { normalizeAxis, scoreProfile, scoreReflected, scoreExpectation } from '../src/app/components/mirror/lib/scoring-engine';
 import { BEHAVIOUR_SPECS, costBand, yearsBand } from '../src/app/components/mirror/lib/scoring-config';
 import { BASELINE_SPECS, PROTOTYPES, type ArchetypeKey } from '../src/app/components/mirror/lib/scoring-config';
+import type { SetAResponse, BaselineResponses } from '../src/app/components/mirror/types';
 
 describe('normalizeAxis', () => {
   it('returns neutral 50 when there is no evidence (den = 0)', () => {
@@ -85,8 +86,6 @@ describe('baseline specs + prototypes', () => {
   });
 });
 
-import { scoreProfile } from '../src/app/components/mirror/lib/scoring-engine';
-
 describe('scoreProfile', () => {
   it('returns neutral 50 on every axis with no evidence', () => {
     const { values } = scoreProfile([]);
@@ -115,5 +114,61 @@ describe('scoreProfile', () => {
     // mainUse ['work','not-in-use'] -> functional: max(|+1|,|-1|) first wins -> +1
     const { values } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work', 'not-in-use']]]);
     expect(values.functional).toBe(100);
+  });
+});
+
+describe('scoreReflected', () => {
+  it('scores a clearly functional + circular Set A purchase', () => {
+    // Hand computation (spec §4.1), Set A only:
+    //   howGot bought-secondhand: C(w2,P,+1) E(w2,s,0 -> excluded) F(w1,s,+0.5)
+    //   cost '60' -> 21-75: F(w2,P,0)
+    //   wearFrequency once-a-week: F(w2,P,+1) C(w1,s,+0.5)
+    //   mainUse ['work']: F(w2,P,+1) S(w2,P,0) C(w1,s,0 -> excluded)
+    //   whyBought replace-similar: S(w2,P,0) C(w2,P,+0.3) F(w1,s,+1)
+    // F: num 0.5+0+2+2+1 = 5.5 ; den 1+2+2+2+1 = 8 -> 50+50*0.6875 = 84
+    // S: num 0 ; den 2+2 = 4 -> 50
+    // E: den 0 -> 50
+    // C: num 2+0.5+0.6 = 3.1 ; den 2+1+2 = 5 -> 50+50*0.62 = 81
+    const a: SetAResponse = {
+      setType: 'A', garmentType: 't-shirt', howGot: 'bought-secondhand', cost: '60',
+      wearFrequency: 'once-a-week', mainUse: ['work'], whyBought: 'replace-similar',
+      timestamp: 't',
+    };
+    const { values } = scoreReflected([a]);
+    expect(values).toEqual({ functional: 84, social: 50, emotional: 50, inflowOutflow: 81 });
+  });
+
+  it('returns all-neutral with no behavioural responses', () => {
+    expect(scoreReflected([]).values).toEqual({ functional: 50, social: 50, emotional: 50, inflowOutflow: 50 });
+  });
+
+  it('skips skipped/empty answers', () => {
+    const a = {
+      setType: 'A', garmentType: 't-shirt', howGot: 'skipped', cost: '',
+      wearFrequency: 'skipped', mainUse: [], whyBought: 'skipped', timestamp: 't',
+    } as unknown as SetAResponse;
+    expect(scoreReflected([a]).values).toEqual({ functional: 50, social: 50, emotional: 50, inflowOutflow: 50 });
+  });
+});
+
+describe('scoreExpectation', () => {
+  it('reads a function-driven, minimal, rare-shopper self-image', () => {
+    // primaryDriver function: F +1(w2), S -0.5(w2), E -0.5(w2)
+    // wardrobeSize minimal: C +1(w2,P), F +0.5(w1)
+    // shoppingFrequency rarely: C +1(w2,P), F +0.3(w1)
+    // disposalHabit periodically: C 0(w2,P)  [emotional secondary, neutral -> excluded]
+    // F: num 2 + 0.5 + 0.3 = 2.8 ; den 2 + 1 + 1 = 4 -> 50+50*0.7 = 85
+    // S: num -1 ; den 2 -> 50+50*(-0.5) = 25
+    // E: num -1 ; den 2 -> 25
+    // C: num 2 + 2 + 0 = 4 ; den 2 + 2 + 2 = 6 -> 50+50*0.6667 = 83
+    const b: BaselineResponses = {
+      wardrobeSize: 'minimal', shoppingFrequency: 'rarely',
+      disposalHabit: 'periodically', primaryDriver: 'function',
+    };
+    expect(scoreExpectation(b).values).toEqual({ functional: 85, social: 25, emotional: 25, inflowOutflow: 83 });
+  });
+
+  it('returns all-neutral when baseline is null', () => {
+    expect(scoreExpectation(null).values).toEqual({ functional: 50, social: 50, emotional: 50, inflowOutflow: 50 });
   });
 });
