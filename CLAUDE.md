@@ -7,7 +7,7 @@ This file is the long-form project context for schema details, data contracts, b
 
 A mobile-first garment research diagnostic tool built in Figma Make (Vite + React + TypeScript). Used in an academic research context to collect wardrobe behaviour data from participants via three sequential question sets. Data is submitted to a Supabase PostgreSQL database hosted in Frankfurt (EU) for GDPR compliance.
 
-**Researcher email:** hamed.m.nigje@gmail.com
+**Primary researcher & project owner:** Victor Onwuanaku (viktoronwuanaku@gmail.com)
 **Active Supabase project:** `tahjilropjzzxolhnhnd.supabase.co` (Wardrobe Research org, eu-central-1, Free tier)
 
 ---
@@ -202,12 +202,13 @@ Scoring is now a theory-grounded, two-profile model (replacing the old additive 
 - **Now scored** (previously deferred): `washFrequency`, `howLongHad` (Set B categorical + Set C years), and `cost` are mapped to constructs. `brand` remains legacy/never-written. The old `TODO (research team decision)` in scoring is resolved.
 - **Code:** `lib/scoring.ts` (public API, unchanged signatures) delegates to `lib/scoring-engine.ts` (pure functions) + `lib/scoring-config.ts` (weight tables + prototypes as data). Unit-tested in `tests/scoring-engine.test.ts` and `tests/scoring.test.ts`.
 - **Storage:** reflected values still write to the existing `*_value` columns + `persona` (no DB migration). Pre-redesign rows are not directly comparable to new rows.
-- **Caveat:** weights/prototypes are expert-set v1 priors — *theory-aligned, not yet empirically validated*.
+- **Recalibration (June 2026, scheme v2.1):** a 108-session pilot analysis showed 3 personas were never assigned (no negative S/E loadings existed; 4 prototype coordinates sat outside the reachable score space). Fixed by 7 documented mapping revisions (reverse-keyed Social loadings; leisure no longer loads S; two E loadings removed) + prototypes re-anchored to observed pilot percentiles + flat gate 12→8. All data-table changes in `scoring-config.ts`; engine algorithms untouched. Report: `docs/analysis/2026-06-11-prototype-recalibration.md`; paper dataset: `docs/analysis/pilot-rescored-sessions.csv`; reproduce via `PILOT_CSV=Notes/wardrobe_responses_full_2026-06-11.csv npx vitest run tests/pilot-analysis.test.ts`.
+- **Caveat:** weights remain expert-set priors (theory-aligned); prototype coordinates are pilot-anchored (n=76 clean sessions) but pending confirmatory validation on a larger sample.
 
 ## Known deferred issues
 
 - **Consent screen** — `consent_given` and `consent_timestamp` columns exist in the DB schema but are always `null`. GDPR open exposure remains.
-- **Scoring calibration** — the redesigned scoring's item weights and archetype prototype coordinates are expert-set starting values; the research team should review for face validity and ideally calibrate against a participant sample.
+- **Scoring calibration** — item weights are expert-set values (7 revised with rationale in the June 2026 v2.1 recalibration); prototype coordinates are now pilot-anchored (n=76). Confirmatory validation against a larger sample remains open.
 
 ---
 
@@ -231,6 +232,9 @@ Scoring is now a theory-grounded, two-profile model (replacing the old additive 
   - `src/app/components/mirror/lib/session.ts`
   - `src/app/components/mirror/lib/export.ts`
   - `src/app/components/mirror/lib/supabase.ts`
+  - `src/app/components/mirror/lib/schema.ts`
+  - `src/app/components/mirror/lib/scoring-config.ts`
+  - `src/app/components/mirror/lib/scoring-engine.ts`
   - `src/app/components/mirror/lib/scoring.ts`
   - `src/app/components/mirror/ui/SelectionTile.tsx`
   - `src/app/components/mirror/ui/ContinueButton.tsx`

@@ -5,11 +5,12 @@ profile and a behavioural archetype. For the full technical specification (compl
 tables, algorithms, and rationale), see
 [`docs/superpowers/specs/2026-06-04-scoring-methodology-redesign-design.md`](superpowers/specs/2026-06-04-scoring-methodology-redesign-design.md).
 
-> **Status — theory-aligned, not yet validated.** This instrument is grounded in established
-> consumer-behaviour theory, but the specific item weights and archetype coordinates are
-> **expert-set v1 priors, not empirically validated parameters.** Construct validity should be
-> confirmed by the research team and, ideally, calibrated against a participant sample before
-> any claim of a "validated" instrument is made.
+> **Status — theory-aligned; prototypes pilot-anchored (2026-06-11).** This instrument is
+> grounded in established consumer-behaviour theory. The item weights are **expert-set priors,
+> not empirically validated parameters** (7 of them revised on 2026-06-11 with documented
+> rationale — see §7). The archetype prototype coordinates are now **anchored to the observed
+> score distribution of a 76-session pilot sample** rather than intuition — an improvement,
+> but still pending confirmatory validation on a larger sample.
 
 ## 1. The four value constructs
 
@@ -76,14 +77,15 @@ on the order the rules were written.
 
 | Archetype | Functional | Social | Emotional | Circularity |
 |---|---|---|---|---|
-| Functional Minimalist | 85 | 40 | 35 | 65 |
-| Social Chameleon | 50 | 85 | 45 | 30 |
-| Memory Keeper | 40 | 40 | 90 | 55 |
-| Identity Collector | 45 | 70 | 75 | 45 |
-| Conscious Curator | 60 | 45 | 50 | 90 |
-| Balanced Adapter | 55 | 55 | 55 | 55 |
+| Functional Minimalist | 78 | 59 | 58 | 46 |
+| Social Chameleon | 68 | 90 | 65 | 39 |
+| Memory Keeper | 58 | 59 | 81 | 46 |
+| Identity Collector | 58 | 90 | 81 | 46 |
+| Conscious Curator | 68 | 59 | 65 | 58 |
+| Balanced Adapter | 68 | 74 | 65 | 46 |
 
-(These coordinates are tunable v1 priors — see the disclaimer above.)
+(Coordinates recalibrated 2026-06-11 — anchored to the observed pilot distribution; see §7.
+The flat-profile gate is `max − min < 8`, lowered from 12 in the same recalibration.)
 
 ## 5. Confidence on partial completion
 
@@ -98,3 +100,26 @@ The reflected profile is written to the existing `social_value`, `emotional_valu
 required**. The expectation profile is recomputable at analysis time from the stored baseline
 columns. Note that rows collected before this methodology change were scored under the old
 additive scheme and are **not directly comparable** to rows scored afterward.
+
+## 7. Addendum — 2026-06-11 recalibration (scheme v2.1)
+
+A pilot analysis (108 sessions; 76 clean after excluding suspected test runs) showed three
+personas were never assigned: no behavioural answer could pull Social/Emotional below 50, and
+four prototype coordinates sat outside the reachable score space. Two corrections, both
+data-table changes (the engine algorithms are untouched):
+
+1. **Seven mapping revisions** — leisure no longer loads Social; utilitarian answers
+   (work/home/sport use, comfort-as-favourite, replacement purchase) now carry mild
+   *reverse-keyed* Social loadings (−0.3); "don't like anymore" softened to +0.5; the
+   donation→Emotional and premium-price→Emotional loadings removed. Each is justified in
+   [`docs/analysis/2026-06-11-prototype-recalibration.md`](analysis/2026-06-11-prototype-recalibration.md).
+2. **Prototype re-anchor** — coordinates placed at observed percentiles of the clean pilot
+   sample (defining axis ≈ p85, contrast axes ≈ p25, Balanced Adapter = centroid); flat gate
+   12 → 8.
+
+Result on clean fully-completed sessions: from FM 0% / MK 0% / CC 0% / IC 47% / BA 34% to
+FM 22% / SC 12% / MK 8% / IC 14% / CC 12% / BA 32%. Every persona is also covered by an
+archetypal answer-pattern unit test. **Scheme history:** v1 additive (until 2026-06-04) →
+v2 normalized weighted-mean (2026-06-04) → v2.1 this recalibration (2026-06-11). Cross-scheme
+analysis must use the uniformly re-scored dataset
+(`docs/analysis/pilot-rescored-sessions.csv`), not stored values.

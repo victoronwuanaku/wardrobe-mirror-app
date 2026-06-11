@@ -1,0 +1,144 @@
+rows=284 sessions=108 legacy-format sessions=40
+
+--- FLAGGED SESSIONS (32) ---
+2026-05-11T07:25  1778484333176-td0yj1jfj    sets=ABC  stored="Balanced Adapter"  flags: test-text
+2026-05-12T08:31  1778574643565-a88o4b5ju    sets=ABC  stored="Memory Keeper"  flags: fast(33s/set)
+2026-05-14T14:44  1778769826291-6g19e9kdr    sets=ABC  stored="Identity Collector"  flags: fast(41s/set)
+2026-05-14T20:24  1778789934512-n8hlx8dkg    sets=ABC  stored="Functional Minimalist"  flags: fast(29s/set)
+2026-05-14T21:16  1778793353507-fpi3yoc27    sets=ABC  stored="Conscious Curator"  flags: fast(40s/set)
+2026-05-18T10:29  1779099974298-c7wytegds    sets=AB  stored="Balanced Adapter"  flags: fast(23s/set), mostly-skipped
+2026-05-18T12:38  1779107833573-4048a5n03    sets=AB  stored="Memory Keeper"  flags: fast(34s/set)
+2026-05-26T10:09  1779790032828-46e46pkrr    sets=ABC  stored="Balanced Adapter"  flags: test-text, cost>500, years>30
+2026-05-26T10:15  1779790426420-i05zieald    sets=ABC  stored="Balanced Adapter"  flags: cost>500, years>30
+2026-05-27T13:06  1779886601976-0q1cj4me7    sets=ABC  stored="Functional Minimalist"  flags: test-text, 07-cost
+2026-05-27T13:07  1779886940436-b3kovdl8o    sets=ABC  stored="Functional Minimalist"  flags: test-text, 07-cost
+2026-05-27T13:14  1779887637449-vel39z2z0    sets=ABC  stored="Functional Minimalist"  flags: 07-cost, fast(21s/set)
+2026-05-27T13:15  1779887715406-4r7epdzom    sets=ABC  stored="Social Chameleon"  flags: fast(33s/set)
+2026-05-28T08:47  1779958000360-uizntzl9e    sets=ABC  stored="Functional Minimalist"  flags: test-text, fast(20s/set)
+2026-05-28T09:11  1779959410211-hbfkccblu    sets=ABC  stored="Identity Collector"  flags: test-text, years>30, fast(30s/set)
+2026-05-28T16:03  1779984164660-spf5tynck    sets=ABC  stored="Identity Collector"  flags: fast(41s/set)
+2026-06-02T12:03  1780401805386-cm3izl7u8    sets=ABC  stored="Functional Minimalist"  flags: 07-cost, fast(25s/set)
+2026-06-02T13:13  1780405925418-dirq0dx77    sets=AB  stored="Functional Minimalist"  flags: fast(41s/set)
+2026-06-04T00:32  1780533123053-sl6oyxaun    sets=ABC  stored="Functional Minimalist"  flags: 07-cost
+2026-06-04T08:46  1780562746053-kx0rbb0dl    sets=ABC  stored="Identity Collector"  flags: 07-cost, fast(30s/set)
+2026-06-04T09:46  1780566342703-dgjn7ug5o    sets=A  stored="Balanced Adapter"  flags: 07-cost
+2026-06-04T09:55  1780566880721-nlwa1zicx    sets=AB  stored="Memory Keeper"  flags: test-text, fast(40s/set)
+2026-06-04T09:56  1780566980461-7ags3yb0e    sets=A  stored="Balanced Adapter"  flags: 07-cost
+2026-06-04T10:24  1780568562078-7n84r6iho    sets=AB  stored="Balanced Adapter"  flags: 07-cost
+2026-06-04T10:24  1780568555656-5f24pdqbg    sets=AB  stored="Balanced Adapter"  flags: 07-cost
+2026-06-04T10:28  1780564491095-hv4oghrw1    sets=ABC  stored="Memory Keeper"  flags: fast(26s/set)
+2026-06-04T11:43  1780573396967-2wuw2isvw    sets=ABC  stored="Identity Collector"  flags: 07-cost, fast(15s/set)
+2026-06-04T12:57  1780577750255-25wf1n9x4    sets=ABC  stored="Social Chameleon"  flags: fast(43s/set)
+2026-06-07T17:08  1780851724401-kd1ym2dvx    sets=ABC  stored="Functional Minimalist"  flags: fast(32s/set)
+2026-06-08T07:56  1780905316718-d180nk82g    sets=ABC  stored="Identity Collector"  flags: fast(33s/set)
+2026-06-10T19:39  1781120293085-gxf4sqxyj    sets=ABC  stored="Social Chameleon"  flags: fast(32s/set)
+2026-06-10T20:13  1781122334809-62qyk6xwt    sets=ABC  stored="Identity Collector"  flags: fast(45s/set)
+
+--- ALL SESSIONS ---
+n=108 sessions   mean re-scored [F S E C] = [64 67 69 47]
+persona                    stored  re-scored
+Functional Minimalist        32  30%     19  18%
+Social Chameleon             14  13%     15  14%
+Memory Keeper                10   9%     22  20%
+Identity Collector           16  15%     11  10%
+Conscious Curator            11  10%     16  15%
+Balanced Adapter             25  23%     25  23%
+
+--- CLEAN (unflagged) SESSIONS ---
+n=76 sessions   mean re-scored [F S E C] = [67 71 68 45]
+persona                    stored  re-scored
+Functional Minimalist        23  30%     16  21%
+Social Chameleon             11  14%     14  18%
+Memory Keeper                 6   8%      9  12%
+Identity Collector            9  12%      9  12%
+Conscious Curator            10  13%      8  11%
+Balanced Adapter             17  22%     20  26%
+
+--- CLEAN, FULL 3-SET SESSIONS ---
+n=59 sessions   mean re-scored [F S E C] = [68 71 68 48]
+persona                    stored  re-scored
+Functional Minimalist        16  27%     13  22%
+Social Chameleon             11  19%      7  12%
+Memory Keeper                 5   8%      5   8%
+Identity Collector            8  14%      8  14%
+Conscious Curator             8  14%      7  12%
+Balanced Adapter             11  19%     19  32%
+
+--- CLEAN-SESSION PERCENTILES (n=76) ---
+axis   p10  p15  p25  p50  p75  p85  p90  min  max
+functional       51   54   58   68   77   78   82   25   92
+social           43   46   59   74   82   90   95   35  100
+emotional        50   50   58   65   75   81   86   50  100
+inflowOutflow    28   34   39   46   54   58   60   17   75
+
+--- FACE-VALIDITY SAMPLES (clean sessions, up to 3 per persona) ---
+
+Functional Minimalist (16 clean sessions)
+  1778679631629-0m9ny1kvw  [F79 S35 E50 C39]
+    A | t-shirt | bought-new | €51-100 | once-a-month | work | replace-similar
+  1778690975424-iqgafc9e3  [F82 S43 E70 C39]
+    A | shirt-blouse | bought-new | €21-50 | once-a-week | home | on-sale
+    B | t-shirt | bought-new | €21-50 | once-a-week | home | skipped | no
+    C | blazer | bought-new | €51-100 | doesnt-fit | textile-bins
+  1778767422581-knpf5bpg6  [F78 S55 E70 C47]
+    A | jacket-coat | bought-new | €21-50 | once-a-week | work; leisure; special-occasions | replace-similar
+    B | sweater-jumper | bought-new | €1-20 | once-a-week | home; leisure | skipped | no-but-would
+    C | jeans-trousers | bought-new | €1-20 | doesnt-fit | donate-charity
+
+Social Chameleon (14 clean sessions)
+  1778679676493-a46crs7sd  [F61 S100 E50 C47]
+    A | t-shirt | bought-secondhand | €free | once-each-season | special-occasions; work; sport; leisure | wanted-new
+  1778776166179-p6jyxbfnf  [F42 S100 E50 C17]
+    A | dress | bought-new | €1-20 | once-each-season | leisure; special-occasions | wanted-new
+    B | sweater-jumper | bought-new | €1-20 | once-each-season | special-occasions; leisure | skipped | no
+  1778789561685-zu8wrvluj  [F60 S88 E71 C35]
+    A | jeans-trousers | bought-new | €1-20 | once-a-month | special-occasions | wanted-new
+    B | jeans-trousers | bought-new | €1-20 | once-a-month | home; special-occasions | It’s comfy
+    C | shorts | bought-new | €1-20 | doesnt-fit | gift-friends-family
+
+Memory Keeper (9 clean sessions)
+  1778504198661-fc914jyrt  [F58 S50 E100 C41]
+    A | t-shirt | gift | €21-50 | once-a-month | leisure | on-sale
+  1778679713158-165o4vn61  [F58 S43 E100 C35]
+    A | dress | gift | €1-20 | once-each-season | sport | on-sale
+  1778679745935-oeiedqxm0  [F58 S43 E100 C35]
+    A | dress | gift | €1-20 | once-each-season | sport | on-sale
+
+Identity Collector (9 clean sessions)
+  1778590816040-wduossu2g  [F53 S88 E65 C51]
+    A | t-shirt | bought-new | €1-20 | once-a-month | other | wanted-new
+    B | t-shirt | bought-secondhand | €1-20 | once-a-month | special-occasions | Nice style | no-but-would
+    C | shirt-blouse | bought-secondhand | €1-20 | out-of-style
+  1778676292286-axbuivkkm  [F46 S100 E75 C75]
+    A | shirt-blouse | made-it | €100+ | not-used-last-year | special-occasions
+  1778769378885-cpbyajcf0  [F62 S100 E80 C44]
+    A | Ankle boots | bought-new | €21-50 | once-a-month | special-occasions | wanted-new
+    B | jeans-trousers | bought-new | €1-20 | once-a-week | work; leisure; special-occasions | They suit my body, not too tight, stylish and very comfortable | no-but-would
+    C | jacket-coat | gift | €free | out-of-style | donate-charity
+
+Conscious Curator (8 clean sessions)
+  1778593836784-hbzlafrsg  [F75 S40 E75 C50]
+    A | t-shirt | bought-new | €1-20 | once-a-month | sport | on-sale
+    B | shorts | made-it | €51-100 | once-a-week | work; sport | skipped | no
+  1778781455152-nda6crodx  [F46 S63 E65 C60]
+    A | jacket-coat | bought-secondhand | €1-20 | once-each-season | not-in-use | other
+    B | jeans-trousers | bought-new | €1-20 | once-a-month | special-occasions; other | Fits perfectly | no-but-would
+    C | t-shirt | bought-secondhand | €free | damaged-worn-out | donate-charity
+  1779044674047-ovxqkglj4  [F72 S68 E70 C54]
+    A | jeans-trousers | bought-secondhand | €1-20 | once-a-week | work; home; leisure | replace-similar
+    B | blazer | bought-new | €100+ | once-each-season | special-occasions; work; leisure | skipped | no
+    C | jacket-coat | bought-new | €21-50 | out-of-style | donate-charity
+
+Balanced Adapter (20 clean sessions)
+  1778575342172-423xhe2ja  [F70 S69 E71 C42]
+    A | jeans-trousers | bought-new | €100+ | once-a-week | leisure | wanted-new
+    B | shirt-blouse | bought-new | €100+ | once-a-week | leisure | skipped | yes-myself
+    C | shorts | bought-new | €21-50 | dont-like-anymore | sell-it
+  1778583053409-sh51eoaiy  [F71 S75 E69 C62]
+    A | Body warmer, green teddy | bought-new | €21-50 | once-a-month | home; leisure; work; special-occasions | other
+    B | dress | bought-secondhand | €21-50 | once-each-season | special-occasions | It is a spanish flamenco dress I needed for a lerformance | yes-myself
+    C | jacket-coat | bought-new | €100+ | doesnt-fit | donate-charity
+  1778670886991-o8s46t0ff  [F65 S71 E65 C42]
+    A | jeans-trousers | bought-new | €21-50 | once-a-week | leisure; special-occasions | replace-similar
+    B | Skirt | bought-new | €21-50 | once-each-season | leisure; special-occasions | It’s vintage | no-but-would
+    C | jeans-trousers | bought-new | €21-50 | doesnt-fit | textile-bins

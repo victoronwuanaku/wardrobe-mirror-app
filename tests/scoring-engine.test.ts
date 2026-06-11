@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { normalizeAxis, scoreProfile, scoreReflected, scoreExpectation, assignArchetype, calculateConfidenceLevel } from '../src/app/components/mirror/lib/scoring-engine';
 import { BEHAVIOUR_SPECS, costBand, yearsBand } from '../src/app/components/mirror/lib/scoring-config';
 import { BASELINE_SPECS, PROTOTYPES, type ArchetypeKey } from '../src/app/components/mirror/lib/scoring-config';
-import type { SetAResponse, BaselineResponses } from '../src/app/components/mirror/types';
+import type { SetAResponse, SetResponse, BaselineResponses } from '../src/app/components/mirror/types';
 
 describe('normalizeAxis', () => {
   it('returns neutral 50 when there is no evidence (den = 0)', () => {
@@ -103,11 +103,18 @@ describe('scoreProfile', () => {
   });
 
   it('counts a primary-probe neutral answer in the denominator (pulls toward 50)', () => {
-    // mainUse ['work'] -> functional primary +1 ; social primary but neutral (0) -> den counts, num 0
-    const { values, evidence } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work']]]);
-    expect(values.functional).toBe(100); // 50 + 50*(2*1/2)
-    expect(values.social).toBe(50);      // primary, neutral -> den=2 num=0 -> 50
-    expect(evidence.social).toBe(2);     // social denominator recorded
+    // mainUse ['leisure'] -> functional and social both primary, neutral (0) -> den counts, num 0
+    const { values, evidence } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['leisure']]]);
+    expect(values.functional).toBe(50); // primary, neutral -> den=2 num=0 -> 50
+    expect(values.social).toBe(50);     // primary, neutral -> den=2 num=0 -> 50
+    expect(evidence.social).toBe(2);    // social denominator recorded
+  });
+
+  it('lets a reverse-keyed answer pull an axis below 50 (2026-06-11 recalibration)', () => {
+    // mainUse ['work'] -> functional +1 (w2, P) ; social -0.3 (w2, P): 50 + 50*(-0.3) = 35
+    const { values } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work']]]);
+    expect(values.functional).toBe(100);
+    expect(values.social).toBe(35);
   });
 
   it('uses max-magnitude direction per axis for multi-select', () => {
@@ -119,14 +126,14 @@ describe('scoreProfile', () => {
 
 describe('scoreReflected', () => {
   it('scores a clearly functional + circular Set A purchase', () => {
-    // Hand computation (spec §4.1), Set A only:
+    // Hand computation (spec §4.1 + 2026-06-11 recalibration), Set A only:
     //   howGot bought-secondhand: C(w2,P,+1) E(w2,s,0 -> excluded) F(w1,s,+0.5)
     //   cost '60' -> 21-75: F(w2,P,0)
     //   wearFrequency once-a-week: F(w2,P,+1) C(w1,s,+0.5)
-    //   mainUse ['work']: F(w2,P,+1) S(w2,P,0) C(w1,s,0 -> excluded)
-    //   whyBought replace-similar: S(w2,P,0) C(w2,P,+0.3) F(w1,s,+1)
+    //   mainUse ['work']: F(w2,P,+1) S(w2,P,-0.3) C(w1,s,0 -> excluded)
+    //   whyBought replace-similar: S(w2,P,-0.3) C(w2,P,+0.3) F(w1,s,+1)
     // F: num 0.5+0+2+2+1 = 5.5 ; den 1+2+2+2+1 = 8 -> 50+50*0.6875 = 84
-    // S: num 0 ; den 2+2 = 4 -> 50
+    // S: num -0.6-0.6 = -1.2 ; den 2+2 = 4 -> 50+50*(-0.3) = 35
     // E: den 0 -> 50
     // C: num 2+0.5+0.6 = 3.1 ; den 2+1+2 = 5 -> 50+50*0.62 = 81
     const a: SetAResponse = {
@@ -135,7 +142,7 @@ describe('scoreReflected', () => {
       timestamp: 't',
     };
     const { values } = scoreReflected([a]);
-    expect(values).toEqual({ functional: 84, social: 50, emotional: 50, inflowOutflow: 81 });
+    expect(values).toEqual({ functional: 84, social: 35, emotional: 50, inflowOutflow: 81 });
   });
 
   it('returns all-neutral with no behavioural responses', () => {
@@ -184,8 +191,12 @@ describe('assignArchetype', () => {
   });
 
   it('resolves a near-flat profile to balancedAdapter via the dominance gate', () => {
-    // spread 8 < 12 -> balanced even though numbers lean functional
-    expect(assignArchetype({ functional: 58, social: 52, emotional: 55, inflowOutflow: 50 })).toBe('balancedAdapter');
+    // spread 5 < 8 -> balanced even though numbers lean functional
+    expect(assignArchetype({ functional: 55, social: 52, emotional: 54, inflowOutflow: 50 })).toBe('balancedAdapter');
+  });
+
+  it('routes a no-evidence neutral profile to balancedAdapter, not the nearest corner', () => {
+    expect(assignArchetype({ functional: 50, social: 50, emotional: 50, inflowOutflow: 50 })).toBe('balancedAdapter');
   });
 
   it('assigns a clearly functional profile to functionalMinimalist', () => {
@@ -194,6 +205,64 @@ describe('assignArchetype', () => {
 
   it('assigns a high-circularity profile to consciousCurator (not the old conflation)', () => {
     expect(assignArchetype({ functional: 55, social: 45, emotional: 50, inflowOutflow: 88 })).toBe('consciousCurator');
+  });
+});
+
+// 2026-06-11 recalibration: six archetypal full sessions (A+B+C), one per persona.
+// Each must assign to its intended persona — guarantees every archetype is reachable
+// by a coherent, realistic answer pattern, not just by its exact prototype point.
+describe('archetypal answer patterns reach their persona', () => {
+  const A = (o: Partial<SetAResponse>) => ({ setType: 'A', garmentType: 'x', timestamp: 't', ...o }) as SetResponse;
+  const B = (o: object) => ({ setType: 'B', garmentType: 'x', timestamp: 't', ...o }) as SetResponse;
+  const C = (o: object) => ({ setType: 'C', garmentType: 'x', timestamp: 't', ...o }) as SetResponse;
+  const persona = (rs: SetResponse[]) => assignArchetype(scoreReflected(rs).values);
+
+  it('pure utility pattern -> functionalMinimalist', () => {
+    expect(persona([
+      A({ howGot: 'bought-new', cost: '90', wearFrequency: 'once-a-week', mainUse: ['work', 'home'], whyBought: 'replace-similar' }),
+      B({ howGot: 'bought-new', cost: '80', howLongHad: '3-4-years', wearFrequency: 'once-a-week', mainUse: ['work'], whyFavorite: ['comfortable'], washFrequency: 'few-times', repaired: 'no' }),
+      C({ howLongHad: '4', cost: '60', howGot: 'bought-new', whyNotWear: ['doesnt-fit'], disposalPlan: 'textile-bins' }),
+    ])).toBe('functionalMinimalist');
+  });
+
+  it('image/trend/newness pattern -> socialChameleon', () => {
+    expect(persona([
+      A({ howGot: 'bought-new', cost: '120', wearFrequency: 'once-a-week', mainUse: ['special-occasions'], whyBought: 'wanted-new' }),
+      B({ howGot: 'bought-new', cost: '100', howLongHad: 'less-1-year', wearFrequency: 'once-a-week', mainUse: ['special-occasions'], whyFavorite: ['confident', 'easy-to-style'], washFrequency: 'every-time', repaired: 'no' }),
+      C({ howLongHad: '1', cost: '80', howGot: 'bought-new', whyNotWear: ['out-of-style', 'dont-like-anymore'], disposalPlan: 'sell-it' }),
+    ])).toBe('socialChameleon');
+  });
+
+  it('gift/memory/retention pattern -> memoryKeeper', () => {
+    expect(persona([
+      A({ howGot: 'gift', cost: '40', wearFrequency: 'once-a-month', mainUse: ['home'], whyBought: 'other' }),
+      B({ howGot: 'gift', cost: '30', howLongHad: '7-plus-years', wearFrequency: 'once-a-month', mainUse: ['home'], whyFavorite: ['personal-emotional'], washFrequency: 'when-dirty', repaired: 'no-but-would' }),
+      C({ howLongHad: '10', cost: '20', howGot: 'gift', whyNotWear: ['waiting-occasion'], disposalPlan: 'gift-friends-family' }),
+    ])).toBe('memoryKeeper');
+  });
+
+  it('identity + sentiment pattern -> identityCollector', () => {
+    expect(persona([
+      A({ howGot: 'bought-new', cost: '100', wearFrequency: 'once-a-week', mainUse: ['special-occasions'], whyBought: 'wanted-new' }),
+      B({ howGot: 'gift', cost: '150', howLongHad: '5-6-years', wearFrequency: 'once-a-month', mainUse: ['special-occasions'], whyFavorite: ['confident', 'personal-emotional'], washFrequency: 'when-dirty', repaired: 'no' }),
+      C({ howLongHad: '6', cost: '50', howGot: 'bought-new', whyNotWear: ['waiting-occasion', 'out-of-style'], disposalPlan: 'donate-charity' }),
+    ])).toBe('identityCollector');
+  });
+
+  it('second-hand/repair/lifecycle pattern -> consciousCurator', () => {
+    expect(persona([
+      A({ howGot: 'bought-secondhand', cost: '25', wearFrequency: 'once-a-month', mainUse: ['leisure'], whyBought: 'replace-similar' }),
+      B({ howGot: 'bought-secondhand', cost: '30', howLongHad: '5-6-years', wearFrequency: 'once-a-month', mainUse: ['leisure'], whyFavorite: ['comfortable'], washFrequency: 'few-times', repaired: 'yes-myself' }),
+      C({ howLongHad: '8', cost: '40', howGot: 'bought-secondhand', whyNotWear: ['doesnt-fit'], disposalPlan: 'repair-repurpose' }),
+    ])).toBe('consciousCurator');
+  });
+
+  it('genuinely mixed pattern -> balancedAdapter', () => {
+    expect(persona([
+      A({ howGot: 'bought-new', cost: '50', wearFrequency: 'once-a-month', mainUse: ['leisure'], whyBought: 'wanted-new' }),
+      B({ howGot: 'gift', cost: '60', howLongHad: '1-2-years', wearFrequency: 'once-a-week', mainUse: ['work', 'special-occasions'], whyFavorite: ['comfortable', 'confident'], washFrequency: 'few-times', repaired: 'no' }),
+      C({ howLongHad: '3', cost: '30', howGot: 'bought-secondhand', whyNotWear: ['dont-like-anymore'], disposalPlan: 'donate-charity' }),
+    ])).toBe('balancedAdapter');
   });
 });
 

@@ -1,0 +1,109 @@
+session_id,first_completed_at,sets_completed,legacy_format,functional,social,emotional,inflow_outflow,stored_persona,rescored_persona,excluded,flag_reasons
+1778484333176-td0yj1jfj,2026-05-11T07:25:54.093Z,3,yes,60,63,58,46,The Balanced Adapter,Balanced Adapter,yes,test-text
+1778504198661-fc914jyrt,2026-05-11T12:57:14.557Z,1,yes,58,50,100,41,The Balanced Adapter,Memory Keeper,no,
+1778574643565-a88o4b5ju,2026-05-12T08:31:20.053Z,3,yes,75,39,77,74,The Memory Keeper,Conscious Curator,yes,fast(33s/set)
+1778575342172-423xhe2ja,2026-05-12T08:43:10.780Z,3,yes,70,69,71,42,The Social Chameleon,Balanced Adapter,no,
+1778583053409-sh51eoaiy,2026-05-12T11:06:47.363Z,3,yes,71,75,69,62,The Balanced Adapter,Balanced Adapter,no,
+1778590816040-wduossu2g,2026-05-12T13:17:06.769Z,3,yes,53,88,65,51,The Functional Minimalist,Identity Collector,no,
+1778593836784-hbzlafrsg,2026-05-12T13:51:01.139Z,2,yes,75,40,75,50,The Functional Minimalist,Conscious Curator,no,
+1778670886991-o8s46t0ff,2026-05-13T11:17:02.957Z,3,yes,65,71,65,42,The Balanced Adapter,Balanced Adapter,no,
+1778676292286-axbuivkkm,2026-05-13T12:45:05.566Z,1,yes,46,100,75,75,The Conscious Curator,Identity Collector,no,
+1778679631629-0m9ny1kvw,2026-05-13T13:40:57.461Z,1,yes,79,35,50,39,The Functional Minimalist,Functional Minimalist,no,
+1778679676493-a46crs7sd,2026-05-13T13:41:48.978Z,1,yes,61,100,50,47,The Functional Minimalist,Social Chameleon,no,
+1778679713158-165o4vn61,2026-05-13T13:42:08.994Z,1,yes,58,43,100,35,The Balanced Adapter,Memory Keeper,no,
+1778679745935-oeiedqxm0,2026-05-13T13:44:24.551Z,1,yes,58,43,100,35,The Memory Keeper,Memory Keeper,no,
+1778679908625-dvgj8auge,2026-05-13T13:45:47.851Z,1,yes,58,43,100,35,The Balanced Adapter,Memory Keeper,no,
+1778690975424-iqgafc9e3,2026-05-13T16:53:21.490Z,3,yes,82,43,70,39,The Functional Minimalist,Functional Minimalist,no,
+1778699861005-5r848heny,2026-05-13T23:04:26.531Z,3,yes,63,75,58,53,The Conscious Curator,Balanced Adapter,no,
+1778767422581-knpf5bpg6,2026-05-14T14:05:55.835Z,3,yes,78,55,70,47,The Functional Minimalist,Functional Minimalist,no,
+1778769378885-cpbyajcf0,2026-05-14T14:38:55.048Z,3,yes,62,100,80,44,The Social Chameleon,Identity Collector,no,
+1778769826291-6g19e9kdr,2026-05-14T14:44:51.518Z,3,yes,57,63,65,53,The Identity Collector,Conscious Curator,yes,fast(41s/set)
+1778773970288-n971qqcq9,2026-05-14T15:53:40.309Z,3,yes,52,50,63,25,The Conscious Curator,Memory Keeper,no,
+1778776166179-p6jyxbfnf,2026-05-14T16:31:34.294Z,2,yes,42,100,50,17,The Conscious Curator,Social Chameleon,no,
+1778781455152-nda6crodx,2026-05-14T18:00:25.384Z,3,yes,46,63,65,60,The Memory Keeper,Conscious Curator,no,
+1778789561685-zu8wrvluj,2026-05-14T20:15:08.466Z,3,yes,60,88,71,35,The Functional Minimalist,Social Chameleon,no,
+1778789934512-n8hlx8dkg,2026-05-14T20:24:20.398Z,3,yes,79,39,72,65,The Functional Minimalist,Conscious Curator,yes,fast(29s/set)
+1778793353507-fpi3yoc27,2026-05-14T21:16:36.612Z,3,yes,33,66,89,57,The Conscious Curator,Memory Keeper,yes,fast(40s/set)
+1778802681220-tzry84nve,2026-05-14T23:54:03.508Z,3,yes,58,100,70,63,The Identity Collector,Identity Collector,no,
+1778840082566-6qigxm648,2026-05-15T10:16:06.043Z,2,yes,50,83,65,25,The Identity Collector,Social Chameleon,no,
+1778863555372-cemxvq268,2026-05-15T16:48:30.643Z,3,yes,59,59,79,47,The Balanced Adapter,Memory Keeper,no,
+1779042632884-9ol2qawnq,2026-05-17T18:32:40.937Z,3,yes,63,94,70,34,The Social Chameleon,Social Chameleon,no,
+1779043050087-0tx0mfi9m,2026-05-17T18:38:47.495Z,3,yes,82,75,79,60,The Functional Minimalist,Balanced Adapter,no,
+1779044524873-gkx8b7ohw,2026-05-17T19:03:41.032Z,3,yes,69,55,50,43,The Functional Minimalist,Functional Minimalist,no,
+1779044505153-ddvzo88zb,2026-05-17T19:04:09.582Z,3,yes,63,63,80,58,The Balanced Adapter,Memory Keeper,no,
+1779044674047-ovxqkglj4,2026-05-17T19:06:50.194Z,3,yes,72,68,70,54,The Functional Minimalist,Conscious Curator,no,
+1779047337821-vc30mgwwy,2026-05-17T19:50:25.309Z,3,yes,67,59,58,41,The Balanced Adapter,Functional Minimalist,no,
+1779048149263-4pvruk0dw,2026-05-17T20:04:13.700Z,3,yes,49,88,65,28,The Functional Minimalist,Social Chameleon,no,
+1779091187974-rgw3diurg,2026-05-18T08:02:25.689Z,3,yes,60,88,65,39,The Social Chameleon,Social Chameleon,no,
+1779095034139-cnkw7nmfz,2026-05-18T09:05:12.443Z,3,yes,78,55,58,36,The Functional Minimalist,Functional Minimalist,no,
+1779099457125-eq8uhvoxs,2026-05-18T10:17:58.036Z,3,yes,70,69,71,48,The Social Chameleon,Balanced Adapter,no,
+1779099974298-c7wytegds,2026-05-18T10:29:56.948Z,2,no,0,50,50,0,The Balanced Adapter,Memory Keeper,yes,fast(23s/set); mostly-skipped
+1779103144861-ck1e6xj1l,2026-05-18T11:20:35.423Z,3,yes,51,69,70,57,The Conscious Curator,Memory Keeper,no,
+1779107833573-4048a5n03,2026-05-18T12:38:27.556Z,2,no,79,35,63,58,The Memory Keeper,Conscious Curator,yes,fast(34s/set)
+1779258150168-0w8dtv5ik,2026-05-20T06:24:19.663Z,3,yes,77,43,70,46,The Balanced Adapter,Functional Minimalist,no,
+1779288241108-7ilnm6ngt,2026-05-20T14:45:34.403Z,3,no,67,44,60,36,The Functional Minimalist,Functional Minimalist,no,
+1779787673791-h8igac848,2026-05-26T09:28:37.896Z,1,no,50,75,50,19,The Functional Minimalist,Social Chameleon,no,
+1779790032828-46e46pkrr,2026-05-26T10:09:08.172Z,3,no,61,62,93,72,The Balanced Adapter,Memory Keeper,yes,test-text; cost>500; years>30
+1779790426420-i05zieald,2026-05-26T10:15:44.152Z,3,no,58,53,82,72,The Balanced Adapter,Conscious Curator,yes,cost>500; years>30
+1779886601976-0q1cj4me7,2026-05-27T13:06:27.967Z,3,no,28,50,84,55,The Functional Minimalist,Memory Keeper,yes,test-text; 07-cost
+1779886940436-b3kovdl8o,2026-05-27T13:07:02.203Z,3,no,30,55,77,53,The Functional Minimalist,Memory Keeper,yes,test-text; 07-cost
+1779887637449-vel39z2z0,2026-05-27T13:14:23.082Z,3,no,25,55,88,57,The Functional Minimalist,Memory Keeper,yes,07-cost; fast(21s/set)
+1779887715406-4r7epdzom,2026-05-27T13:15:39.348Z,3,no,38,75,84,62,The Social Chameleon,Identity Collector,yes,fast(33s/set)
+1779958000360-uizntzl9e,2026-05-28T08:47:08.276Z,3,no,43,55,88,54,The Functional Minimalist,Memory Keeper,yes,test-text; fast(20s/set)
+1779958075243-mmjszziwr,2026-05-28T08:48:17.911Z,1,no,83,75,50,19,The Functional Minimalist,Functional Minimalist,no,
+1779958103061-wrlgckmr7,2026-05-28T08:48:45.712Z,1,no,67,75,50,23,The Functional Minimalist,Social Chameleon,no,
+1779959410211-hbfkccblu,2026-05-28T09:11:12.427Z,3,no,45,85,81,61,The Identity Collector,Identity Collector,yes,test-text; years>30; fast(30s/set)
+1779984164660-spf5tynck,2026-05-28T16:03:27.087Z,3,no,70,75,55,49,The Identity Collector,Balanced Adapter,yes,fast(41s/set)
+1780163504663-wuod56lvg,2026-05-30T18:00:33.243Z,3,no,77,75,58,41,The Social Chameleon,Balanced Adapter,no,
+1780165049341-yklha9ijq,2026-05-30T18:21:45.595Z,3,no,76,75,60,50,The Identity Collector,Balanced Adapter,no,
+1780311841063-smkfb7ix0,2026-06-01T11:05:06.014Z,3,no,65,62,55,32,The Conscious Curator,Functional Minimalist,no,
+1780314529708-n5plfw99m,2026-06-01T11:50:35.944Z,3,no,70,77,63,39,The Social Chameleon,Balanced Adapter,no,
+1780323577617-r52b7x888,2026-06-01T14:21:01.615Z,3,no,78,46,60,44,The Balanced Adapter,Functional Minimalist,no,
+1780388187038-khcg3zllv,2026-06-02T08:19:07.798Z,3,no,78,80,55,40,The Conscious Curator,Balanced Adapter,no,
+1780400912585-cfdp1nejs,2026-06-02T11:49:55.397Z,1,no,89,100,50,55,The Balanced Adapter,Social Chameleon,no,
+1780401805386-cm3izl7u8,2026-06-02T12:03:52.030Z,3,no,36,65,90,52,The Functional Minimalist,Memory Keeper,yes,07-cost; fast(25s/set)
+1780405925418-dirq0dx77,2026-06-02T13:13:54.666Z,2,no,68,59,58,53,The Functional Minimalist,Conscious Curator,yes,fast(41s/set)
+1780406051157-77a5qndg9,2026-06-02T13:15:16.035Z,3,no,81,64,55,41,The Functional Minimalist,Functional Minimalist,no,
+1780406273345-35y276zzb,2026-06-02T13:19:15.315Z,3,no,69,90,74,44,The Memory Keeper,Social Chameleon,no,
+1780406471585-jw8xfxhtk,2026-06-02T13:22:20.162Z,3,no,54,83,86,56,The Conscious Curator,Identity Collector,no,
+1780408629230-55xj05t8b,2026-06-02T13:58:49.508Z,3,no,54,72,58,46,The Identity Collector,Balanced Adapter,no,
+1780420233926-03sa56z4e,2026-06-02T17:16:34.737Z,3,no,56,70,63,54,The Conscious Curator,Balanced Adapter,no,
+1780430482779-zh8pjgnfv,2026-06-02T20:04:35.693Z,2,no,67,78,50,28,The Balanced Adapter,Social Chameleon,no,
+1780461315675-fxjd43caj,2026-06-03T04:37:10.674Z,3,no,57,90,75,40,The Social Chameleon,Identity Collector,no,
+1780474942772-arahg5w75,2026-06-03T08:24:14.367Z,3,no,77,95,88,49,The Identity Collector,Identity Collector,no,
+1780476529592-15qb2fbvw,2026-06-03T08:52:22.506Z,3,no,60,82,85,52,The Identity Collector,Identity Collector,no,
+1780489500085-0ymi8xpx9,2026-06-03T12:27:12.408Z,3,no,71,67,63,43,The Balanced Adapter,Balanced Adapter,no,
+1780495410458-rak0k01gr,2026-06-03T14:09:08.926Z,3,no,76,77,82,57,The Memory Keeper,Balanced Adapter,no,
+1780483446852-di39tty61,2026-06-03T14:47:15.163Z,3,no,55,67,88,51,The Conscious Curator,Memory Keeper,no,
+1780533123053-sl6oyxaun,2026-06-04T00:32:36.100Z,3,no,30,50,87,51,The Functional Minimalist,Memory Keeper,yes,07-cost
+1780557048670-r4rhvnz3z,2026-06-04T07:15:52.488Z,3,no,86,51,55,44,The Functional Minimalist,Functional Minimalist,no,
+1780562746053-kx0rbb0dl,2026-06-04T08:46:41.527Z,3,no,49,67,84,57,The Identity Collector,Memory Keeper,yes,07-cost; fast(30s/set)
+1780563096681-xh008k6hl,2026-06-04T08:51:55.292Z,1,no,25,75,50,50,The Functional Minimalist,Balanced Adapter,no,
+1780566342703-dgjn7ug5o,2026-06-04T09:46:02.641Z,1,no,79,35,50,40,The Balanced Adapter,Functional Minimalist,yes,07-cost
+1780566880721-nlwa1zicx,2026-06-04T09:55:17.710Z,2,no,42,43,92,49,The Memory Keeper,Memory Keeper,yes,test-text; fast(40s/set)
+1780566980461-7ags3yb0e,2026-06-04T09:56:54.806Z,1,no,42,50,50,21,The Balanced Adapter,Memory Keeper,yes,07-cost
+1780568562078-7n84r6iho,2026-06-04T10:24:35.675Z,2,no,80,35,55,47,The Balanced Adapter,Functional Minimalist,yes,07-cost
+1780568555656-5f24pdqbg,2026-06-04T10:24:39.776Z,2,no,80,35,55,47,The Balanced Adapter,Functional Minimalist,yes,07-cost
+1780564491095-hv4oghrw1,2026-06-04T10:28:08.534Z,3,no,73,41,84,59,The Memory Keeper,Conscious Curator,yes,fast(26s/set)
+1780568928778-985ur0wmn,2026-06-04T10:32:02.012Z,3,no,74,41,81,59,The Memory Keeper,Conscious Curator,no,
+1780570346016-i1kdpgpf6,2026-06-04T10:53:46.997Z,3,no,75,74,67,57,The Social Chameleon,Balanced Adapter,no,
+1780572916198-j68el7ovw,2026-06-04T11:35:44.082Z,3,no,73,75,58,50,The Social Chameleon,Balanced Adapter,no,
+1780573396967-2wuw2isvw,2026-06-04T11:43:36.614Z,3,no,61,51,78,50,The Identity Collector,Memory Keeper,yes,07-cost; fast(15s/set)
+1780574856241-dr3eue5wm,2026-06-04T12:08:14.252Z,1,no,92,43,50,23,The Balanced Adapter,Functional Minimalist,no,
+1780577750255-25wf1n9x4,2026-06-04T12:57:19.526Z,3,no,54,85,50,67,The Social Chameleon,Balanced Adapter,yes,fast(43s/set)
+1780578048579-sjgx4zz5f,2026-06-04T13:03:29.371Z,3,no,78,67,66,47,The Balanced Adapter,Functional Minimalist,no,
+1780643735268-dfvtcdgot,2026-06-05T07:18:29.668Z,3,no,74,95,75,47,The Memory Keeper,Social Chameleon,no,
+1780697475659-tx8xmjzp3,2026-06-05T22:12:34.654Z,3,no,84,59,55,34,The Functional Minimalist,Functional Minimalist,no,
+1780697473582-wb3wpf0d1,2026-06-05T22:13:46.563Z,3,no,49,80,63,45,The Functional Minimalist,Balanced Adapter,no,
+1780851724401-kd1ym2dvx,2026-06-07T17:08:14.231Z,3,no,74,46,60,58,The Functional Minimalist,Conscious Curator,yes,fast(32s/set)
+1780903323240-q7bh6roov,2026-06-08T07:23:38.219Z,3,no,68,69,80,58,The Functional Minimalist,Conscious Curator,no,
+1780905053478-i4yzzsmvl,2026-06-08T07:54:24.837Z,3,no,75,100,83,49,The Functional Minimalist,Identity Collector,no,
+1780905316718-d180nk82g,2026-06-08T07:56:12.760Z,3,no,78,69,69,49,The Identity Collector,Balanced Adapter,yes,fast(33s/set)
+1780925456748-x7hj1j2kx,2026-06-08T13:32:19.977Z,3,no,67,74,63,58,The Identity Collector,Balanced Adapter,no,
+1781001364472-j5lulirru,2026-06-09T10:48:02.143Z,3,no,65,70,71,63,The Identity Collector,Conscious Curator,no,
+1781087728503-48dmn7m2p,2026-06-10T10:37:37.782Z,3,no,78,87,50,32,The Social Chameleon,Social Chameleon,no,
+1781120293085-gxf4sqxyj,2026-06-10T19:39:08.688Z,3,no,79,75,58,39,The Social Chameleon,Balanced Adapter,yes,fast(32s/set)
+1781121691401-62s0a6hzz,2026-06-10T20:02:08.001Z,3,no,84,41,64,64,The Balanced Adapter,Conscious Curator,no,
+1781122334809-62qyk6xwt,2026-06-10T20:13:04.597Z,3,no,69,90,68,47,The Identity Collector,Social Chameleon,yes,fast(45s/set)
+1781122658527-dr31l1f6g,2026-06-10T20:18:27.678Z,3,no,71,75,86,69,The Identity Collector,Conscious Curator,no,
+1781169682975-370g0vajw,2026-06-11T09:25:22.500Z,3,no,87,80,73,64,The Balanced Adapter,Balanced Adapter,no,

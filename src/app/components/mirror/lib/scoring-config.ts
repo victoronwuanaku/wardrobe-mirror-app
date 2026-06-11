@@ -55,14 +55,15 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
     },
   },
   cost: {
-    salience: { functional: W.moderate, emotional: W.mild, inflowOutflow: W.mild },
+    // 2026-06-11 recalibration: price is not attachment evidence — emotional loading removed.
+    salience: { functional: W.moderate, inflowOutflow: W.mild },
     primary: ['functional'],
     bucket: costBand,
     directions: {
       '0-20': { functional: -0.5, inflowOutflow: -0.3 },
       '21-75': {},
       '76-150': { functional: 0.5 },
-      '151+': { functional: 1, emotional: 0.5 },
+      '151+': { functional: 1 },
     },
   },
   wearFrequency: {
@@ -76,15 +77,17 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
     },
   },
   mainUse: {
+    // 2026-06-11 recalibration: leisure wear is not group/image signalling (Sheth social value)
+    // and purely utilitarian contexts argue mildly AGAINST social motivation (ipsative, like primaryDriver).
     salience: { functional: W.moderate, social: W.moderate, inflowOutflow: W.mild },
     primary: ['functional', 'social'],
     multi: true,
     directions: {
-      'work': { functional: 1 },
-      'home': { functional: 1 },
-      'sport': { functional: 1 },
+      'work': { functional: 1, social: -0.3 },
+      'home': { functional: 1, social: -0.3 },
+      'sport': { functional: 1, social: -0.3 },
       'special-occasions': { social: 1 },
-      'leisure': { social: 0.5 },
+      'leisure': {},
       'not-in-use': { functional: -1, inflowOutflow: -1 },
       'other': {},
     },
@@ -93,7 +96,8 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
     salience: { social: W.moderate, inflowOutflow: W.moderate, functional: W.mild },
     primary: ['social', 'inflowOutflow'],
     directions: {
-      'replace-similar': { functional: 1, inflowOutflow: 0.3 },
+      // 2026-06-11 recalibration: replacement purchase is need-driven, not image-driven (mild anti-social signal).
+      'replace-similar': { functional: 1, social: -0.3, inflowOutflow: 0.3 },
       'wanted-new': { social: 1, inflowOutflow: -1 },
       'on-sale': { inflowOutflow: -0.6 },
       'other': {},
@@ -104,7 +108,8 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
     primary: ['functional', 'social', 'emotional'],
     multi: true,
     directions: {
-      'comfortable': { functional: 1 },
+      // 2026-06-11 recalibration: comfort chosen over the style/confidence options is a mild anti-social signal.
+      'comfortable': { functional: 1, social: -0.3 },
       'easy-to-style': { functional: 0.3, social: 0.5 },
       'confident': { social: 1 },
       'personal-emotional': { emotional: 1 },
@@ -162,7 +167,8 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
       'doesnt-fit': { functional: 1 },
       'damaged-worn-out': { functional: 0.5 },
       'out-of-style': { social: 1, inflowOutflow: -0.5 },
-      'dont-like-anymore': { social: 1, inflowOutflow: -0.5 },
+      // 2026-06-11 recalibration: taste change is not necessarily a style/image signal (out-of-style keeps +1).
+      'dont-like-anymore': { social: 0.5, inflowOutflow: -0.5 },
       'waiting-occasion': { social: 0.3, emotional: 0.5 },
       'forgot': { inflowOutflow: -1 },
       'other': {},
@@ -174,7 +180,8 @@ export const BEHAVIOUR_SPECS: Record<string, ItemSpec> = {
     directions: {
       'repair-repurpose': { functional: 0.5, emotional: 0.5, inflowOutflow: 1 },
       'gift-friends-family': { emotional: 0.5, inflowOutflow: 0.8 },
-      'donate-charity': { emotional: 0.3, inflowOutflow: 0.8 },
+      // 2026-06-11 recalibration: routine charity donation is not attachment evidence (emotional loading removed).
+      'donate-charity': { inflowOutflow: 0.8 },
       'sell-it': { inflowOutflow: 0.7 },
       'textile-bins': { inflowOutflow: 0.5 },
     },
@@ -229,15 +236,23 @@ export type ArchetypeKey =
   | 'consciousCurator'
   | 'balancedAdapter';
 
-// Prototype coordinates in [functional, social, emotional, inflowOutflow] space (spec §5).
+// Prototype coordinates in [functional, social, emotional, inflowOutflow] space.
+// 2026-06-11 recalibration: anchored to the observed score distribution of the 76 clean
+// pilot sessions (defining axis ~85th percentile, contrast axes ~15th, otherwise median;
+// Balanced Adapter = observed centroid). Replaces the uncalibrated v1 coordinates, four of
+// which sat outside the reachable score space and starved three personas entirely.
 export const PROTOTYPES: Record<ArchetypeKey, ValueMeters> = {
-  functionalMinimalist: { functional: 85, social: 40, emotional: 35, inflowOutflow: 65 },
-  socialChameleon:      { functional: 50, social: 85, emotional: 45, inflowOutflow: 30 },
-  memoryKeeper:         { functional: 40, social: 40, emotional: 90, inflowOutflow: 55 },
-  identityCollector:    { functional: 45, social: 70, emotional: 75, inflowOutflow: 45 },
-  consciousCurator:     { functional: 60, social: 45, emotional: 50, inflowOutflow: 90 },
-  balancedAdapter:      { functional: 55, social: 55, emotional: 55, inflowOutflow: 55 },
+  functionalMinimalist: { functional: 78, social: 59, emotional: 58, inflowOutflow: 46 },
+  socialChameleon:      { functional: 68, social: 90, emotional: 65, inflowOutflow: 39 },
+  memoryKeeper:         { functional: 58, social: 59, emotional: 81, inflowOutflow: 46 },
+  identityCollector:    { functional: 58, social: 90, emotional: 81, inflowOutflow: 46 },
+  consciousCurator:     { functional: 68, social: 59, emotional: 65, inflowOutflow: 58 },
+  balancedAdapter:      { functional: 68, social: 74, emotional: 65, inflowOutflow: 46 },
 };
 
 // A genuinely flat profile (max - min below this spread) resolves to Balanced Adapter.
-export const FLAT_PROFILE_SPREAD = 12;
+// 2026-06-11 recalibration: 12 -> 8. With prototypes anchored to the observed distribution,
+// a distinctive profile can have small absolute spread (circularity's observed range sits
+// below the other axes), so the old threshold mis-gated the Conscious Curator region.
+// 8 still routes a no-evidence [50,50,50,50] profile to Balanced Adapter.
+export const FLAT_PROFILE_SPREAD = 8;
