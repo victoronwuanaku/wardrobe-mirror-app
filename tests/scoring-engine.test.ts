@@ -118,9 +118,17 @@ describe('scoreProfile', () => {
   });
 
   it('uses max-magnitude direction per axis for multi-select', () => {
-    // mainUse ['work','not-in-use'] -> functional: max(|+1|,|-1|) first wins -> +1
+    // mainUse ['work','not-in-use'] -> functional: max(|+1|,|-1|) tie -> table order, 'work' first -> +1
     const { values } = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work', 'not-in-use']]]);
     expect(values.functional).toBe(100);
+  });
+
+  it('scores multi-select identically regardless of selection (tap) order', () => {
+    // 'work' (+1) and 'not-in-use' (-1) tie on |functional|; the score must not
+    // depend on which tile the participant tapped first.
+    const workFirst = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['work', 'not-in-use']]]);
+    const notInUseFirst = scoreProfile([[BEHAVIOUR_SPECS.mainUse, ['not-in-use', 'work']]]);
+    expect(notInUseFirst.values).toEqual(workFirst.values);
   });
 });
 

@@ -24,11 +24,14 @@ type Answer = string | string[];
 // Caller contract: multi specs receive array answers; non-multi specs receive scalar answers.
 function directionFor(spec: ItemSpec, axis: Axis, answer: Answer): number {
   if (spec.multi) {
-    const selected = Array.isArray(answer) ? answer : [answer];
+    const selected = new Set(Array.isArray(answer) ? answer : [answer]);
     let s = 0;
-    for (const key of selected) {
-      const d = spec.directions[key]?.[axis] ?? 0;
-      if (Math.abs(d) > Math.abs(s)) s = d; // max magnitude, first wins on tie
+    // Walk the directions table (canonical order), not the selection array, so equal-magnitude
+    // conflicts resolve the same way regardless of the order the participant tapped the tiles.
+    for (const key of Object.keys(spec.directions)) {
+      if (!selected.has(key)) continue;
+      const d = spec.directions[key][axis] ?? 0;
+      if (Math.abs(d) > Math.abs(s)) s = d; // max magnitude, table order wins on tie
     }
     return s;
   }

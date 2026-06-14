@@ -14,7 +14,8 @@ export interface ItemSpec {
   salience: Partial<Record<Axis, number>>;
   // Axes that are PRIMARY probes: counted in the denominator even when the answer is neutral (s = 0).
   primary: Axis[];
-  // Multi-select item: per axis, among selected options pick the one with the largest |direction| and use its signed value.
+  // Multi-select item: per axis, among selected options pick the one with the largest |direction|
+  // and use its signed value; equal-magnitude ties resolve by directions-table order (selection order is ignored).
   multi?: boolean;
   // Optional resolver converting a raw answer (e.g. a number) to a lookup key for `directions`.
   bucket?: (raw: string) => string;

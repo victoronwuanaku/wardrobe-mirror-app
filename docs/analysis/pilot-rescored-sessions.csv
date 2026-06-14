@@ -23,7 +23,7 @@ session_id,first_completed_at,sets_completed,legacy_format,functional,social,emo
 1778781455152-nda6crodx,2026-05-14T18:00:25.384Z,3,yes,46,63,65,60,The Memory Keeper,Conscious Curator,no,
 1778789561685-zu8wrvluj,2026-05-14T20:15:08.466Z,3,yes,60,88,71,35,The Functional Minimalist,Social Chameleon,no,
 1778789934512-n8hlx8dkg,2026-05-14T20:24:20.398Z,3,yes,79,39,72,65,The Functional Minimalist,Conscious Curator,yes,fast(29s/set)
-1778793353507-fpi3yoc27,2026-05-14T21:16:36.612Z,3,yes,33,66,89,57,The Conscious Curator,Memory Keeper,yes,fast(40s/set)
+1778793353507-fpi3yoc27,2026-05-14T21:16:36.612Z,3,yes,43,66,89,57,The Conscious Curator,Memory Keeper,yes,fast(40s/set)
 1778802681220-tzry84nve,2026-05-14T23:54:03.508Z,3,yes,58,100,70,63,The Identity Collector,Identity Collector,no,
 1778840082566-6qigxm648,2026-05-15T10:16:06.043Z,2,yes,50,83,65,25,The Identity Collector,Social Chameleon,no,
 1778863555372-cemxvq268,2026-05-15T16:48:30.643Z,3,yes,59,59,79,47,The Balanced Adapter,Memory Keeper,no,
@@ -43,7 +43,7 @@ session_id,first_completed_at,sets_completed,legacy_format,functional,social,emo
 1779258150168-0w8dtv5ik,2026-05-20T06:24:19.663Z,3,yes,77,43,70,46,The Balanced Adapter,Functional Minimalist,no,
 1779288241108-7ilnm6ngt,2026-05-20T14:45:34.403Z,3,no,67,44,60,36,The Functional Minimalist,Functional Minimalist,no,
 1779787673791-h8igac848,2026-05-26T09:28:37.896Z,1,no,50,75,50,19,The Functional Minimalist,Social Chameleon,no,
-1779790032828-46e46pkrr,2026-05-26T10:09:08.172Z,3,no,61,62,93,72,The Balanced Adapter,Memory Keeper,yes,test-text; cost>500; years>30
+1779790032828-46e46pkrr,2026-05-26T10:09:08.172Z,3,no,71,62,93,72,The Balanced Adapter,Memory Keeper,yes,test-text; cost>500; years>30
 1779790426420-i05zieald,2026-05-26T10:15:44.152Z,3,no,58,53,82,72,The Balanced Adapter,Conscious Curator,yes,cost>500; years>30
 1779886601976-0q1cj4me7,2026-05-27T13:06:27.967Z,3,no,28,50,84,55,The Functional Minimalist,Memory Keeper,yes,test-text; 07-cost
 1779886940436-b3kovdl8o,2026-05-27T13:07:02.203Z,3,no,30,55,77,53,The Functional Minimalist,Memory Keeper,yes,test-text; 07-cost
@@ -67,7 +67,7 @@ session_id,first_completed_at,sets_completed,legacy_format,functional,social,emo
 1780406273345-35y276zzb,2026-06-02T13:19:15.315Z,3,no,69,90,74,44,The Memory Keeper,Social Chameleon,no,
 1780406471585-jw8xfxhtk,2026-06-02T13:22:20.162Z,3,no,54,83,86,56,The Conscious Curator,Identity Collector,no,
 1780408629230-55xj05t8b,2026-06-02T13:58:49.508Z,3,no,54,72,58,46,The Identity Collector,Balanced Adapter,no,
-1780420233926-03sa56z4e,2026-06-02T17:16:34.737Z,3,no,56,70,63,54,The Conscious Curator,Balanced Adapter,no,
+1780420233926-03sa56z4e,2026-06-02T17:16:34.737Z,3,no,66,70,63,54,The Conscious Curator,Balanced Adapter,no,
 1780430482779-zh8pjgnfv,2026-06-02T20:04:35.693Z,2,no,67,78,50,28,The Balanced Adapter,Social Chameleon,no,
 1780461315675-fxjd43caj,2026-06-03T04:37:10.674Z,3,no,57,90,75,40,The Social Chameleon,Identity Collector,no,
 1780474942772-arahg5w75,2026-06-03T08:24:14.367Z,3,no,77,95,88,49,The Identity Collector,Identity Collector,no,
@@ -77,7 +77,7 @@ session_id,first_completed_at,sets_completed,legacy_format,functional,social,emo
 1780483446852-di39tty61,2026-06-03T14:47:15.163Z,3,no,55,67,88,51,The Conscious Curator,Memory Keeper,no,
 1780533123053-sl6oyxaun,2026-06-04T00:32:36.100Z,3,no,30,50,87,51,The Functional Minimalist,Memory Keeper,yes,07-cost
 1780557048670-r4rhvnz3z,2026-06-04T07:15:52.488Z,3,no,86,51,55,44,The Functional Minimalist,Functional Minimalist,no,
-1780562746053-kx0rbb0dl,2026-06-04T08:46:41.527Z,3,no,49,67,84,57,The Identity Collector,Memory Keeper,yes,07-cost; fast(30s/set)
+1780562746053-kx0rbb0dl,2026-06-04T08:46:41.527Z,3,no,58,67,84,57,The Identity Collector,Memory Keeper,yes,07-cost; fast(30s/set)
 1780563096681-xh008k6hl,2026-06-04T08:51:55.292Z,1,no,25,75,50,50,The Functional Minimalist,Balanced Adapter,no,
 1780566342703-dgjn7ug5o,2026-06-04T09:46:02.641Z,1,no,79,35,50,40,The Balanced Adapter,Functional Minimalist,yes,07-cost
 1780566880721-nlwa1zicx,2026-06-04T09:55:17.710Z,2,no,42,43,92,49,The Memory Keeper,Memory Keeper,yes,test-text; fast(40s/set)
