@@ -1,6 +1,4 @@
-import React from 'react';
 import {
-  Compass,
   DoorOpen,
   Download,
   FileDown,
@@ -14,7 +12,6 @@ import {
   Sparkles,
   TrendingUp,
   Users,
-  Wrench,
 } from 'lucide-react';
 import { ARCHETYPE_INFO } from '../constants/archetypes';
 import { exportGameData, exportCSV } from '../lib/export';
@@ -24,13 +21,11 @@ import { ValueFingerprintRadar } from '../ui/ValueFingerprintRadar';
 import type {
   BaselineResponses,
   GameData,
-  MotionPreference,
   PersonaProfile,
   SetResponse,
 } from '../types';
 
 interface FinalDashboardProps {
-  shouldReduceMotion: MotionPreference;
   sessionId: string;
   sessionStartTime: string;
   allResponses: SetResponse[];
@@ -57,7 +52,7 @@ export function FinalDashboard(props: FinalDashboardProps) {
     activeTab, setActiveTab, selectedArchetype, setSelectedArchetype,
     emailSent, setEmailSent, submissionError, setSubmissionError,
     statusDismissed, setStatusDismissed, showThankYou,
-    onStartNewRun, onShareWithOthers, onShareResults, shouldReduceMotion,
+    onStartNewRun, onShareWithOthers, onShareResults,
   } = props;
 
     const values = calculateValuesFromMirrorGame(allResponses, baselineResponses);

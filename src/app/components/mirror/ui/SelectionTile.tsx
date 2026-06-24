@@ -7,14 +7,12 @@ export function SelectionTile({
   label,
   selected,
   onClick,
-  icon,
-  description
+  icon
 }: {
   label: string;
   selected: boolean;
   onClick: () => void;
   icon?: React.ReactNode;
-  description?: string;
 }) {
   const shouldReduceMotion = useReducedMotion();
 
@@ -60,13 +58,6 @@ export function SelectionTile({
           }}>
             {label}
           </div>
-          {description && (
-            <div className="text-xs mt-1 font-light leading-relaxed" style={{
-              color: selected ? 'rgba(212, 175, 55, 0.7)' : 'rgba(245, 241, 232, 0.6)'
-            }}>
-              {description}
-            </div>
-          )}
         </div>
         {selected && (
           <motion.div

@@ -31,7 +31,7 @@ src/main.tsx                                          (mounts the React app)
 
 src/styles/                  index.css → imports tailwind.css, theme.css, and the app stylesheet
 src/app/styles/wardrobe-mirror.css   design tokens, safe-area insets, animations
-utils/supabase/info.tsx      Supabase project URL + public key
+utils/supabase/info.ts       Supabase project URL + public key
 tests/                       unit tests (scoring + database column contract)
 ```
 

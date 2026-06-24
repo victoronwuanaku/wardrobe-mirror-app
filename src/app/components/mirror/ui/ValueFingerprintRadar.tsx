@@ -1,4 +1,3 @@
-import React from 'react';
 import { COLORS } from '../constants/design';
 import type { ValueMeters } from '../types';
 

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft, Sparkles } from 'lucide-react';
 import { MOTION_EASE, fadeRiseMotion, scaleInMotion } from '../constants/design';
@@ -9,8 +8,6 @@ interface BaselineScreenProps {
   shouldReduceMotion: MotionPreference;
   baselineQuestionIndex: number;
   baselineDraft: Partial<BaselineResponses>;
-  textInputValue: string;
-  setTextInputValue: (value: string) => void;
   onAnswer: (key: keyof BaselineResponses, value: string) => void;
   onBack: () => void;
 }
@@ -19,8 +16,6 @@ export function BaselineScreen({
   shouldReduceMotion,
   baselineQuestionIndex,
   baselineDraft,
-  textInputValue,
-  setTextInputValue,
   onAnswer,
   onBack,
 }: BaselineScreenProps) {

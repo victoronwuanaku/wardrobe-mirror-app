@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles } from 'lucide-react';
 import { MOTION_EASE, fadeRiseMotion, scaleInMotion } from '../constants/design';

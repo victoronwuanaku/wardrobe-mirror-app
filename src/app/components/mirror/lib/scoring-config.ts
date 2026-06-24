@@ -4,8 +4,6 @@ import type { ValueMeters } from '../types';
 // `inflowOutflow` is the storage key; it represents "Circularity consciousness" in the UI.
 export type Axis = keyof ValueMeters; // 'social' | 'emotional' | 'functional' | 'inflowOutflow'
 
-export const ALL_AXES: Axis[] = ['functional', 'social', 'emotional', 'inflowOutflow'];
-
 // Salience tiers (how much an item counts as evidence on an axis).
 export const W = { strong: 3, moderate: 2, mild: 1 } as const;
 

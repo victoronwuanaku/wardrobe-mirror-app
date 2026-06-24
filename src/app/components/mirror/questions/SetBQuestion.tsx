@@ -1,5 +1,4 @@
-import React from 'react';
-import { Briefcase, Calendar, Clock, Compass, Droplet, Euro, Eye, Gift, Heart, Home, Package, PartyPopper, Recycle, Repeat, Scissors, Shirt, ShoppingBag, Sparkles, Star, Target, Users, Wrench, X } from 'lucide-react';
+import { Briefcase, Calendar, Clock, Compass, Droplet, Eye, Gift, Heart, Home, Package, PartyPopper, Recycle, Repeat, Scissors, Shirt, ShoppingBag, Sparkles, Star, Target, Users, Wrench, X } from 'lucide-react';
 import { COLORS } from '../constants/design';
 import { getGarmentIcon, getGarmentLabel } from '../constants/garments';
 import { getSetCategoryName } from '../constants/questionSteps';

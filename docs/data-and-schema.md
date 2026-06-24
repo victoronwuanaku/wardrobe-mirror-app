@@ -11,7 +11,7 @@ considerations that come with it.
 - **Researcher / owner contact:** hamed.m.nigje@gmail.com.
 - The researcher views and exports collected data through the **Supabase dashboard**.
 
-The browser connects with the URL and public key in `utils/supabase/info.tsx`:
+The browser connects with the URL and public key in `utils/supabase/info.ts`:
 
 ```ts
 export const supabaseUrl = 'https://tahjilropjzzxolhnhnd.supabase.co'

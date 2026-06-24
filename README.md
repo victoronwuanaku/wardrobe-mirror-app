@@ -30,7 +30,7 @@ pnpm dev          # start the dev server, then open the printed URL (usually htt
 ```
 
 The app runs entirely in the browser. Saving responses to the database works out of the box —
-the Supabase key in `utils/supabase/info.tsx` is a **public, insert-only key** and is safe to
+the Supabase key in `utils/supabase/info.ts` is a **public, insert-only key** and is safe to
 ship (see [docs/data-and-schema.md](docs/data-and-schema.md)).
 
 ## Other commands
@@ -53,7 +53,3 @@ pnpm test         # run the unit tests once (Vitest)
 | `docs/sample-data/` | An example export of collected responses (column shape reference). |
 | `utils/supabase/` | Database connection details and the SQL to recreate the table. |
 | `tests/` | Unit tests for scoring and the database column contract. |
-
-## Attributions
-
-Third-party components and assets are credited in [ATTRIBUTIONS.md](ATTRIBUTIONS.md).

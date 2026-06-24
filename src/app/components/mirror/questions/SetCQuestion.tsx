@@ -1,4 +1,3 @@
-import React from 'react';
 import { AlertCircle, Clock, Compass, Euro, Gift, Heart, Package, Recycle, Scissors, Shirt, ShoppingBag, TrendingUp, Users, Wrench, X } from 'lucide-react';
 import { COLORS } from '../constants/design';
 import { getGarmentIcon, getGarmentLabel } from '../constants/garments';

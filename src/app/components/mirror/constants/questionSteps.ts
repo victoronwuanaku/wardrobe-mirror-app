@@ -17,8 +17,8 @@ export const QUESTION_STEPS: Record<ActiveSet, QuestionStep[]> = {
     { id: 'howLongHad', renderIndex: 4 },
     { id: 'wearFrequency', renderIndex: 5 },
     { id: 'mainUse', renderIndex: 6 },
-    { id: 'washFrequency', renderIndex: 8, optional: true },
-    { id: 'repaired', renderIndex: 9, optional: true },
+    { id: 'washFrequency', renderIndex: 8 },
+    { id: 'repaired', renderIndex: 9 },
   ],
   C: [
     { id: 'garmentType', renderIndex: 0 },

@@ -11,7 +11,7 @@
  * ============================================================================
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useReducedMotion } from 'motion/react';
 import type {
   SetResponse,
@@ -412,7 +412,6 @@ export function MirrorGame() {
           setTextInputValue={setTextInputValue}
           setCurrentResponse={setCurrentResponse}
           onAnswer={handleAnswer}
-          onSkip={handleSkip}
           onContinue={handleContinue}
           onMultiSelectToggle={handleMultiSelectToggle}
           onOtherSelection={handleOtherSelection}
@@ -479,8 +478,6 @@ export function MirrorGame() {
         shouldReduceMotion={shouldReduceMotion}
         baselineQuestionIndex={baselineQuestionIndex}
         baselineDraft={baselineDraft}
-        textInputValue={textInputValue}
-        setTextInputValue={setTextInputValue}
         onAnswer={handleBaselineAnswer}
         onBack={handleBaselineBack}
       />
@@ -530,7 +527,6 @@ export function MirrorGame() {
   if (gameState === 'final') {
     return (
       <FinalDashboard
-        shouldReduceMotion={shouldReduceMotion}
         sessionId={sessionId}
         sessionStartTime={sessionStartTime}
         allResponses={allResponses}

@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion } from 'motion/react';
 import { scaleInMotion } from '../constants/design';
 import { ContinueButton } from '../ui/ContinueButton';

@@ -35,5 +35,3 @@ export const DB_COLUMNS = [
   'disposal_plan',
   'how_long_had_years',
 ] as const;
-
-export type DbColumn = (typeof DB_COLUMNS)[number];

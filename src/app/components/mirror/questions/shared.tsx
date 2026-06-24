@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { Check } from 'lucide-react';
 import { GARMENT_OPTIONS } from '../constants/garments';

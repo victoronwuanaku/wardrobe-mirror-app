@@ -91,7 +91,6 @@ export type MotionPreference = boolean | null;
 export interface QuestionStep {
   id: string;
   renderIndex: number;
-  optional?: boolean;
   shouldShow?: (response: Partial<SetResponse>) => boolean;
 }
 

@@ -16,8 +16,6 @@ import {
 } from './scoring-engine';
 import type { ArchetypeKey } from './scoring-config';
 
-export const clampValue = (value: number) => Math.max(0, Math.min(100, Math.round(value)));
-
 /**
  * Reflected (behaviour-only) value profile. The `baseline` parameter is retained for
  * call-site compatibility but no longer contributes to the behavioural score — baseline

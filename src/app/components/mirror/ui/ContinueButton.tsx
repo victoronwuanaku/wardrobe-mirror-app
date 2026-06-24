@@ -1,4 +1,3 @@
-import React from 'react';
 import { motion, useReducedMotion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { MOTION_EASE } from '../constants/design';

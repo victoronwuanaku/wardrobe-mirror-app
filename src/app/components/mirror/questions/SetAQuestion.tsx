@@ -1,11 +1,9 @@
-import React from 'react';
-import { Briefcase, Calendar, Clock, Compass, Euro, Gift, Heart, Home, Package, PartyPopper, Recycle, Repeat, Scissors, Shirt, ShoppingBag, Sparkles, Star, Tag, Target, Users, X } from 'lucide-react';
+import { Briefcase, Calendar, Clock, Compass, Gift, Heart, Home, Package, PartyPopper, Recycle, Repeat, Scissors, Shirt, ShoppingBag, Sparkles, Star, Tag, Target, Users, X } from 'lucide-react';
 import { COLORS } from '../constants/design';
 import { getGarmentIcon, getGarmentLabel } from '../constants/garments';
 import { getSetCategoryName } from '../constants/questionSteps';
 import { SelectionTile } from '../ui/SelectionTile';
 import { ContinueButton } from '../ui/ContinueButton';
-import { SecondaryButton } from '../ui/SecondaryButton';
 import { QuestionScreen } from '../ui/QuestionScreen';
 import { OtherInput, GarmentGrid } from './shared';
 import type { SetAResponse, SetResponse } from '../types';
@@ -17,7 +15,6 @@ interface SetAQuestionProps {
   setTextInputValue: (v: string) => void;
   setCurrentResponse: (response: Partial<SetResponse>) => void;
   onAnswer: (key: string, value: any) => void;
-  onSkip: (key: string) => void;
   onContinue: (updatedResponse?: any) => void;
   onMultiSelectToggle: (key: string, value: string) => void;
   onOtherSelection: (key: string) => void;
@@ -29,7 +26,7 @@ interface SetAQuestionProps {
 export function SetAQuestion(props: SetAQuestionProps) {
   const {
     currentQuestionIndex, currentResponse, textInputValue, setTextInputValue,
-    setCurrentResponse, onAnswer, onSkip, onContinue, onMultiSelectToggle,
+    setCurrentResponse, onAnswer, onContinue, onMultiSelectToggle,
     onOtherSelection, onOtherTextAnswer, onOtherTextSkip, submitTextAnswer,
   } = props;
     const resp = currentResponse as Partial<SetAResponse>;
