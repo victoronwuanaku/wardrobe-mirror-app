@@ -1,55 +1,66 @@
 # Wardrobe Mirror
 
-The Wardrobe Mirror is a mobile-first, browser-based survey tool built for academic research
-into clothing and wardrobe behaviour. A participant answers a short baseline questionnaire and
-then reflects on three specific garments — a recent purchase, a favourite, and one they are
-ready to dispose of. At the end the tool shows them a four-axis "value fingerprint" and a
-behavioural archetype. Each completed garment set is saved to a Supabase (PostgreSQL) database
-hosted in the EU (Frankfurt) for GDPR compliance.
+A small browser app (Vite + React + TypeScript) — a survey tool that explores how people
+relate to their clothing. This guide gets it running on your own machine, step by step.
 
-It is built with Vite, React, and TypeScript.
+## 1. Install the tools you need (one time)
 
-## Prerequisites
+**Node.js — version 18 or newer.** The runtime that powers the app.
+- Download the **LTS** version from <https://nodejs.org> and run the installer.
+- Check it worked: open a terminal and run `node -v`. You should see something like `v20.x.x`.
 
-- **Node.js 18 or newer**
-- **pnpm 11** — the repo pins `pnpm@11.0.8` via the `packageManager` field in `package.json`.
-  The simplest way to get the matching version is Corepack, which ships with Node:
+**pnpm — version 11.** The package manager this project uses (instead of `npm`).
+- Easiest way: run `corepack enable` (Corepack ships with Node, so nothing else to download).
+- Check it: `pnpm -v` should print `11.x.x`.
 
-  ```bash
-  corepack enable
-  ```
+## 2. Get the code
 
-  Corepack then reads the pinned version automatically. Alternatively, install pnpm globally:
-  `npm install -g pnpm@11.0.8`.
-
-## Running it locally
+If you already have the project folder, open a terminal inside it. Otherwise clone it:
 
 ```bash
-pnpm install      # install dependencies (first time only)
-pnpm dev          # start the dev server, then open the printed URL (usually http://localhost:5173)
+git clone https://github.com/victoronwuanaku/wardrobe-mirror-app.git
+cd wardrobe-mirror-app
 ```
 
-The app runs entirely in the browser. Saving responses to the database works out of the box —
-the Supabase key in `utils/supabase/info.ts` is a **public, insert-only key** and is safe to
-ship (see [docs/data-and-schema.md](docs/data-and-schema.md)).
+## 3. Install the project's dependencies (one time)
 
-## Other commands
+This downloads the libraries the app needs into a `node_modules/` folder:
 
 ```bash
-pnpm build        # production build into dist/
-pnpm typecheck    # TypeScript type-check (no files emitted)
-pnpm test         # run the unit tests once (Vitest)
+pnpm install
 ```
 
-## Where to find things
+## 4. Run the app
 
-| Path | What it is |
+```bash
+pnpm dev
+```
+
+You'll see a line like `Local: http://localhost:5173/`. Open that address in your browser —
+the app is now running, and it reloads automatically as you edit the code.
+
+To stop it, press `Ctrl + C` in the terminal.
+
+## Other useful commands
+
+| Command | What it does |
 |---|---|
-| `src/` | The application code (React + TypeScript). |
-| `docs/architecture.md` | How the code is organised and where to change what. |
-| `docs/data-and-schema.md` | The database schema, how responses are saved, privacy/GDPR notes. |
-| `docs/scoring-methodology.md` | How answers become value scores and archetypes. |
-| `docs/history.md` | Fixed bugs and known open issues. |
-| `docs/sample-data/` | An example export of collected responses (column shape reference). |
-| `utils/supabase/` | Database connection details and the SQL to recreate the table. |
-| `tests/` | Unit tests for scoring and the database column contract. |
+| `pnpm build` | Make an optimized production build (output goes to `dist/`). |
+| `pnpm test` | Run the unit tests once. |
+| `pnpm typecheck` | Check the TypeScript types without running the app. |
+
+## If something goes wrong
+
+- **`pnpm: command not found`** → run `corepack enable`, then try again (or install it with `npm install -g pnpm`).
+- **Port 5173 is already in use** → another copy is running. Stop it with `Ctrl + C`, or let Vite pick the next free port (it prints the new URL).
+- **Errors right after `pnpm install`** → delete the folder and reinstall: `rm -rf node_modules && pnpm install`.
+
+## Learn more
+
+The app code lives in `src/`. For how it's organised, the database, and the scoring, see the
+`docs/` folder:
+
+- [`docs/architecture.md`](docs/architecture.md) — code structure and where to change what
+- [`docs/data-and-schema.md`](docs/data-and-schema.md) — the database and how responses are saved
+- [`docs/scoring-methodology.md`](docs/scoring-methodology.md) — how answers become value scores
+- [`docs/history.md`](docs/history.md) — fixed bugs and known open issues
